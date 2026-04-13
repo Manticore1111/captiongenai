@@ -1,17 +1,30 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
-  "installCommand": "npm install && npm run install-client && npm run install-server",
-  "env": {
-    "NODE_ENV": "production"
-  },
+  "installCommand": "npm install",
   "builds": [
     {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "client/build"
-      }
+      "src": "standalone/index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "standalone/generator.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "standalone/login.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "standalone/register.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "standalone/dashboard.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "standalone/upgrade.html",
+      "use": "@vercel/static"
     },
     {
       "src": "server/server.js",
@@ -24,12 +37,15 @@
       "dest": "server/server.js"
     },
     {
-      "src": "/standalone/(.*)",
-      "dest": "server/server.js"
+      "src": "/(.*\\.html)$",
+      "dest": "standalone/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "client/build/$1"
+      "dest": "standalone/index.html"
     }
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }
