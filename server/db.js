@@ -15,8 +15,10 @@ db.serialize(() => {
     streak INTEGER DEFAULT 0,
     last_login DATE,
     subscription_status TEXT DEFAULT 'free',
+    subscription_plan TEXT DEFAULT 'free',
     subscription_end_date DATE,
-    free_used BOOLEAN DEFAULT 0,
+    free_trials_remaining INTEGER DEFAULT 3,
+    free_trials_used INTEGER DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
 

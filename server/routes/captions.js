@@ -107,22 +107,10 @@ router.post('/generate', verifyToken, checkRateLimit, (req, res) => {
     return res.status(400).json({ message: 'Topic is required' });
   }
 
-  // Check if user has subscription
-  db.get('SELECT free_used, subscription_status FROM users WHERE id = ?', [userId], (err, user) => {
+  // Check user subscription and free trials
+  db.get('SELECT free_trials_remaining, subscription_status FROM users WHERE id = ?', [userId], (err, user) => {
     if (err) {
       // Generate fallback on DB error
-      const captions = generateFallbackCaptions(topic, platform, tone, keywords, parseInt(count));
-      return res.json({ 
-        captions, 
-        hashtags: ["#viral", "#trending", "#content"],
-        hook: `✨ ${topic} - Amazing content!`,
-        source: 'fallback',
-        message: 'Generated successfully!'
-      });
-    }
-
-    if (!user) {
-      // Generate fallback user not found
       const captions = generateFallbackCaptions(topic, platform, tone, keywords, parseInt(count));
       return res.json({ 
         captions, 
@@ -132,7 +120,23 @@ router.post('/generate', verifyToken, checkRateLimit, (req, res) => {
       });
     }
 
-    // Generate captions using fallback (no API)
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Check if user has active subscription
+    const hasSubscription = user.subscription_status === 'active' || user.subscription_status === 'pro' || user.subscription_status === 'business';
+
+    // Check free trials
+    if (!hasSubscription && user.free_trials_remaining <= 0) {
+      return res.status(403).json({ 
+        message: 'Free trials exhausted. Please subscribe to continue.',
+        error: 'NO_TRIALS_LEFT',
+        redirect: '/upgrade.html'
+      });
+    }
+
+    // Generate captions
     const captions = generateFallbackCaptions(topic, platform, tone, keywords, parseInt(count));
     const hashtags = ["#viral", "#trending", "#fyp", "#explore", "#content", "#creator"];
     const hook = `✨ ${topic} - Amazing content for ${platform}!`;
@@ -142,28 +146,29 @@ router.post('/generate', verifyToken, checkRateLimit, (req, res) => {
       'INSERT INTO caption_generations (user_id, topic, platform, captions, hashtags, hook) VALUES (?, ?, ?, ?, ?, ?)',
       [userId, topic, platform, JSON.stringify(captions), JSON.stringify(hashtags), hook],
       (err) => {
-        if (err) {
-          // Still return captions even if DB fails
+        if (!err && !hasSubscription) {
+          // Decrement free trials
+          const trialsRemaining = user.free_trials_remaining - 1;
+          db.run('UPDATE users SET free_trials_remaining = ?, free_trials_used = ? WHERE id = ?', 
+            [trialsRemaining, user.free_trials_used + 1, userId]);
+          
           return res.json({ 
             captions, 
             hashtags, 
-            hook, 
+            hook,
             source: 'generated',
-            message: 'Captions generated! (Note: may not be saved to history)'
+            message: `Generation #${user.free_trials_used + 1}/3 done! Trials left: ${trialsRemaining}`,
+            trials_remaining: trialsRemaining
           });
         }
 
-        // Mark free used if not subscribed
-        if (!user.free_used && user.subscription_status !== 'active') {
-          db.run('UPDATE users SET free_used = 1 WHERE id = ?', [userId]);
-        }
-
+        // For paid users or if DB save failed
         res.json({ 
           captions, 
           hashtags, 
           hook,
           source: 'generated',
-          message: 'Captions generated and saved!'
+          message: 'Captions generated successfully!'
         });
       }
     );

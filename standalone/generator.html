@@ -862,48 +862,18 @@
         // Rate limiting state
         let lastGenerationTime = 0;
         const RATE_LIMIT_MS = 5000; // 5 seconds
-
-        function hasUsedFreeGeneration() {
-            return localStorage.getItem('vcai_free_generation_used') === 'true';
-        }
-
-        function markFreeGenerationUsed() {
-            localStorage.setItem('vcai_free_generation_used', 'true');
-        }
+        let trialsRemaining = 3;
 
         function isUserLoggedIn() {
             return localStorage.getItem('vcai_auth_token') !== null;
         }
 
+        function getAuthToken() {
+            return localStorage.getItem('vcai_auth_token');
+        }
+
         function generateCaptions(e) {
             e.preventDefault();
-
-            // Check if user is logged in
-            if (!isUserLoggedIn()) {
-                // Check if they already used free generation
-                if (hasUsedFreeGeneration()) {
-                    alert('⚠️ You have used your free generation!\n\nPlease login to generate more captions.');
-                    window.location.href = 'login.html';
-                    return;
-                }
-
-                // First time user - show they're using free generation
-                const continueGen = confirm('💎 This is your FREE caption generation!\n\nAfter this, you\'ll need to login and choose a plan.\n\nContinue?');
-                if (!continueGen) return;
-
-                // Mark as used
-                markFreeGenerationUsed();
-            }
-
-            // Check rate limit
-            const now = Date.now();
-            const timeSinceLastGen = now - lastGenerationTime;
-            
-            if (timeSinceLastGen < RATE_LIMIT_MS) {
-                const waitSeconds = Math.ceil((RATE_LIMIT_MS - timeSinceLastGen) / 1000);
-                alert(`⏳ Please wait ${waitSeconds} second(s) before generating captions again.`);
-                return;
-            }
 
             // Validate selections
             const platform = document.getElementById('platform').value;
@@ -930,6 +900,16 @@
             submitBtn.textContent = '⏳ Generating...';
 
             try {
+                // Check rate limit
+                const now = Date.now();
+                const timeSinceLastGen = now - lastGenerationTime;
+                
+                if (timeSinceLastGen < RATE_LIMIT_MS) {
+                    const waitSeconds = Math.ceil((RATE_LIMIT_MS - timeSinceLastGen) / 1000);
+                    alert(`⏳ Please wait ${waitSeconds} second(s) before generating captions again.`);
+                    throw new Error('Rate limit exceeded');
+                }
+
                 // Generate captions
                 const captions = generateCaptionList(topic, platform, tone, keywords, count);
 
@@ -951,14 +931,9 @@
                 // Update rate limit timer
                 lastGenerationTime = now;
 
-                // Show upgrade message after free generation
-                if (!isUserLoggedIn() && hasUsedFreeGeneration()) {
-                    setTimeout(() => {
-                        const shouldLogin = confirm('✨ Loving your captions?\n\n👑 Create an account to:\n• Generate unlimited captions\n• Save your favorites\n• Access premium features\n\nReady to upgrade?');
-                        if (shouldLogin) {
-                            window.location.href = 'register.html';
-                        }
-                    }, 2000);
+                // Show trial info if logged in
+                if (isUserLoggedIn()) {
+                    showTrialInfo();
                 }
 
             } catch (error) {
@@ -967,6 +942,46 @@
                 // Reset submit button
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
+            }
+        }
+
+        function showTrialInfo() {
+            const token = getAuthToken();
+            if (!token) return;
+
+            fetch('/api/captions/subscription-status', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.free_trials_remaining !== undefined) {
+                    trialsRemaining = data.free_trials_remaining;
+                    
+                    // Show notification
+                    if (trialsRemaining === 0) {
+                        alert('❌ FREE TRIALS EXHAUSTED!\n\nSubscribe now to continue generating captions!\n\n💎 Pro: €9.99/month\n👑 Business: €14.99/month');
+                        window.location.href = 'upgrade.html';
+                    } else if (trialsRemaining <= 1) {
+                        setTimeout(() => {
+                            alert(`⚠️ WARNING!\n\nYou have ${trialsRemaining} trial(s) remaining!\n\nAfter that, subscribe to continue.\n\nUpgrade now for unlimited access!`);
+                        }, 1500);
+                    }
+
+                    // Update UI
+                    updateTrialDisplay();
+                }
+            });
+        }
+
+        function updateTrialDisplay() {
+            const trialsDiv = document.getElementById('trials-info');
+            if (trialsDiv && isUserLoggedIn()) {
+                trialsDiv.innerHTML = `
+                    <div style="padding: 10px; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 8px; color: white; font-weight: 700;">
+                        Free Trials: <span style="font-size: 1.2em;">${trialsRemaining}/3</span>
+                        ${trialsRemaining === 0 ? '❌ EXPIRED' : trialsRemaining <= 1 ? '⚠️ LAST CHANCE!' : ''}
+                    </div>
+                `;
             }
         }
 
