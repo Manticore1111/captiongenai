@@ -859,8 +859,22 @@
             event.currentTarget.classList.add('active');
         }
 
+        // Rate limiting state
+        let lastGenerationTime = 0;
+        const RATE_LIMIT_MS = 5000; // 5 seconds
+
         function generateCaptions(e) {
             e.preventDefault();
+
+            // Check rate limit
+            const now = Date.now();
+            const timeSinceLastGen = now - lastGenerationTime;
+            
+            if (timeSinceLastGen < RATE_LIMIT_MS) {
+                const waitSeconds = Math.ceil((RATE_LIMIT_MS - timeSinceLastGen) / 1000);
+                alert(`⏳ Please wait ${waitSeconds} second(s) before generating captions again.`);
+                return;
+            }
 
             // Validate selections
             const platform = document.getElementById('platform').value;
@@ -880,23 +894,41 @@
             const keywords = document.getElementById('keywords').value;
             const count = parseInt(document.getElementById('count').value);
 
-            // Generate captions
-            const captions = generateCaptionList(topic, platform, tone, keywords, count);
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Generating...';
 
-            // Display results
-            const captionsList = document.getElementById('captionsList');
-            captionsList.innerHTML = captions.map((caption, i) => `
-                <div class="caption-item">
-                    <div class="caption-text">${caption}</div>
-                    <div class="caption-actions">
-                        <button type="button" class="copy-btn" onclick="copyCaption('${caption.replace(/'/g, "\\'")}')">📋 Copy</button>
-                        <button type="button" class="save-btn" onclick="saveCaption('${caption.replace(/'/g, "\\'")}')">💾 Save</button>
+            try {
+                // Generate captions
+                const captions = generateCaptionList(topic, platform, tone, keywords, count);
+
+                // Display results
+                const captionsList = document.getElementById('captionsList');
+                captionsList.innerHTML = captions.map((caption, i) => `
+                    <div class="caption-item">
+                        <div class="caption-text">${caption}</div>
+                        <div class="caption-actions">
+                            <button type="button" class="copy-btn" onclick="copyCaption('${caption.replace(/'/g, "\\'")}')">📋 Copy</button>
+                            <button type="button" class="save-btn" onclick="saveCaption('${caption.replace(/'/g, "\\'")}')">💾 Save</button>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
 
-            document.getElementById('placeholder').style.display = 'none';
-            document.getElementById('results').classList.add('show');
+                document.getElementById('placeholder').style.display = 'none';
+                document.getElementById('results').classList.add('show');
+
+                // Update rate limit timer
+                lastGenerationTime = now;
+
+            } catch (error) {
+                alert('❌ Error generating captions: ' + error.message);
+            } finally {
+                // Reset submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
         }
 
         function generateCaptionList(topic, platform, tone, keywords, count) {
