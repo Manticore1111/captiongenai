@@ -170,6 +170,36 @@ router.post('/generate', verifyToken, checkRateLimit, (req, res) => {
   });
 });
 
+// Get user subscription status
+router.get('/subscription-status', verifyToken, (req, res) => {
+  const userId = req.user.id;
+  
+  db.get(
+    'SELECT subscription_status, subscription_plan, free_used FROM users WHERE id = ?',
+    [userId],
+    (err, user) => {
+      if (err) {
+        return res.json({ 
+          status: 'free', 
+          plan: 'free',
+          message: 'No subscription found'
+        });
+      }
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      res.json({
+        status: user.subscription_status || 'free',
+        plan: user.subscription_plan || 'free',
+        free_used: user.free_used,
+        has_access: user.subscription_status === 'active'
+      });
+    }
+  );
+});
+
 // Get user generations
 router.get('/history', verifyToken, (req, res) => {
   const userId = req.user.id;

@@ -863,8 +863,37 @@
         let lastGenerationTime = 0;
         const RATE_LIMIT_MS = 5000; // 5 seconds
 
+        function hasUsedFreeGeneration() {
+            return localStorage.getItem('vcai_free_generation_used') === 'true';
+        }
+
+        function markFreeGenerationUsed() {
+            localStorage.setItem('vcai_free_generation_used', 'true');
+        }
+
+        function isUserLoggedIn() {
+            return localStorage.getItem('vcai_auth_token') !== null;
+        }
+
         function generateCaptions(e) {
             e.preventDefault();
+
+            // Check if user is logged in
+            if (!isUserLoggedIn()) {
+                // Check if they already used free generation
+                if (hasUsedFreeGeneration()) {
+                    alert('⚠️ You have used your free generation!\n\nPlease login to generate more captions.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // First time user - show they're using free generation
+                const continueGen = confirm('💎 This is your FREE caption generation!\n\nAfter this, you\'ll need to login and choose a plan.\n\nContinue?');
+                if (!continueGen) return;
+
+                // Mark as used
+                markFreeGenerationUsed();
+            }
 
             // Check rate limit
             const now = Date.now();
@@ -895,7 +924,7 @@
             const count = parseInt(document.getElementById('count').value);
 
             // Show loading state
-            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const submitBtn = document.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ Generating...';
@@ -921,6 +950,16 @@
 
                 // Update rate limit timer
                 lastGenerationTime = now;
+
+                // Show upgrade message after free generation
+                if (!isUserLoggedIn() && hasUsedFreeGeneration()) {
+                    setTimeout(() => {
+                        const shouldLogin = confirm('✨ Loving your captions?\n\n👑 Create an account to:\n• Generate unlimited captions\n• Save your favorites\n• Access premium features\n\nReady to upgrade?');
+                        if (shouldLogin) {
+                            window.location.href = 'register.html';
+                        }
+                    }, 2000);
+                }
 
             } catch (error) {
                 alert('❌ Error generating captions: ' + error.message);
