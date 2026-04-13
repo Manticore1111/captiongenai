@@ -669,6 +669,24 @@
                 </div>
             </div>
 
+            <!-- TRIALS BANNER - VERY VISIBLE -->
+            <div id="trials-banner" style="display: none; padding: 20px; margin-bottom: 20px; border-radius: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center;">
+                <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">
+                    🎯 FREE TRIALS REMAINING
+                </div>
+                <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 12px; letter-spacing: 2px;">
+                    <span id="trials-count">3</span> / 3
+                </div>
+                <div id="trials-message" style="font-size: 0.95rem; opacity: 0.9;">
+                    Generate captions using your free trials. After that, choose a plan.
+                </div>
+                <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center;">
+                    <button type="button" onclick="window.location.href='/upgrade.html'" style="padding: 10px 20px; background: white; color: #667eea; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.9rem;">
+                        💎 View Plans
+                    </button>
+                </div>
+            </div>
+
             <!-- Content Grid -->
             <div class="content-grid">
                 <!-- Generator Form -->
@@ -817,13 +835,62 @@
             }
         };
 
-        // Check session
+        // Check session and load trials
         window.addEventListener('load', () => {
             const session = SessionManager.getSession();
             if (!session.isLoggedIn) {
                 window.location.href = 'login.html';
+                return;
             }
+
+            // Load trials info immediately
+            loadTrialsInfo();
         });
+
+        function loadTrialsInfo() {
+            const token = getAuthToken();
+            if (!token) return;
+
+            fetch('/api/captions/subscription-status', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            .then(r => r.json())
+            .then(data => {
+                console.log('Subscription data:', data);
+                
+                if (data.free_trials_remaining !== undefined) {
+                    trialsRemaining = data.free_trials_remaining;
+                    updateTrialsDisplay();
+                }
+            })
+            .catch(err => console.error('Error loading trials:', err));
+        }
+
+        function updateTrialsDisplay() {
+            const banner = document.getElementById('trials-banner');
+            const counter = document.getElementById('trials-count');
+            const message = document.getElementById('trials-message');
+
+            if (!banner) return;
+
+            banner.style.display = 'block';
+            counter.textContent = trialsRemaining;
+
+            // Update message based on trials left
+            if (trialsRemaining === 0) {
+                banner.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+                message.innerHTML = '❌ <strong>Your free trials are EXHAUSTED!</strong><br>Upgrade to a paid plan to continue generating captions.';
+            } else if (trialsRemaining === 1) {
+                banner.style.background = 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)';
+                message.innerHTML = '🚨 <strong>LAST TRIAL!</strong><br>After this, you\'ll need to subscribe to continue.';
+            } else if (trialsRemaining === 2) {
+                banner.style.background = 'linear-gradient(135deg, #eab308 0%, #ca8a04 100%)';
+                message.innerHTML = '⚠️ <strong>2 trials remaining.</strong><br>Plan ahead and upgrade when ready!';
+            } else {
+                banner.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                message.innerHTML = '✨ Generate captions using your free trials. After that, choose a plan.';
+            }
+        }
 
         // Platform Selection Handler
         function selectPlatform(event) {
@@ -931,9 +998,14 @@
                 // Update rate limit timer
                 lastGenerationTime = now;
 
-                // Show trial info if logged in
+                // Show trial info if logged in and update display
                 if (isUserLoggedIn()) {
                     showTrialInfo();
+                    
+                    // After 1 second, reload trials display
+                    setTimeout(() => {
+                        loadTrialsInfo();
+                    }, 1000);
                 }
 
             } catch (error) {
