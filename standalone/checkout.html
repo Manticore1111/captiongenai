@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Upgrade - ViralCaption AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="checkout-page">
+    <div class="container checkout-container">
+        <header class="checkout-header">
+            <div class="logo">
+                <span class="logo-mark">VC</span>
+                <span class="logo-text">ViralCaption AI</span>
+            </div>
+            <div class="header-actions">
+                <a href="index.html" class="secondary-btn">Terug naar Home</a>
+            </div>
+            <p>Activeer premium toegang voor betere captions, slimme planning en prioriteitsondersteuning.</p>
+        </header>
+
+        <main class="checkout-layout">
+            <section class="checkout-left">
+                <div class="checkout-hero-card">
+                    <span class="badge accent">Premium Functies</span>
+                    <h1>Word direct sneller, creatiever en consistenter op social media.</h1>
+                    <p>Met premium unlock je onbeperkte caption-generatie, bulk content productie, saved drafts en exclusieve trendsignalen.</p>
+                    <div class="hero-pills">
+                        <span>Blijf altijd on-brand</span>
+                        <span>Postplanner & contentkalender</span>
+                        <span>Meer dan 10 creatieve templates</span>
+                    </div>
+                </div>
+
+                <div class="plan-highlight-card">
+                    <h2>Kies je plan</h2>
+                    <div class="pricing-grid">
+                        <label class="plan-card" data-plan="starter">
+                            <input type="radio" name="planCard" value="starter" hidden>
+                            <div class="plan-head">
+                                <span>Starter</span>
+                                <strong>€4,99</strong>
+                                <small>per maand</small>
+                            </div>
+                            <p>Begin met content creëren zonder limietdruk.</p>
+                            <ul>
+                                <li>10 generaties per dag</li>
+                                <li>Hashtag- en CTA-suggesties</li>
+                                <li>Templates & saved drafts</li>
+                            </ul>
+                        </label>
+                        <label class="plan-card selected" data-plan="pro">
+                            <input type="radio" name="planCard" value="pro" checked hidden>
+                            <div class="plan-head">
+                                <span>Pro</span>
+                                <strong>€9,99</strong>
+                                <small>per maand</small>
+                            </div>
+                            <p>De ideale keuze voor contentmakers en kleine ondernemers.</p>
+                            <ul>
+                                <li>50 generaties per dag</li>
+                                <li>Postplanner & conceptopslag</li>
+                                <li>Performance-insights</li>
+                            </ul>
+                        </label>
+                        <label class="plan-card" data-plan="unlimited">
+                            <input type="radio" name="planCard" value="unlimited" hidden>
+                            <div class="plan-head">
+                                <span>Unlimited</span>
+                                <strong>€14,99</strong>
+                                <small>per maand</small>
+                            </div>
+                            <p>Voor teams en power users die continu content willen maken.</p>
+                            <ul>
+                                <li>Onbeperkt generaties</li>
+                                <li>Bulk content generator</li>
+                                <li>Prioriteitsondersteuning</li>
+                            </ul>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="checkout-benefits">
+                    <h2>Wat je krijgt</h2>
+                    <div class="benefit-grid">
+                        <article class="benefit-card">
+                            <h3>100% ready voor social</h3>
+                            <p>Elke caption is direct geschikt voor TikTok, Instagram, LinkedIn en meer.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>Strakke workflow</h3>
+                            <p>Plan, bewaar en verbeter met één overzichtelijke tool.</p>
+                        </article>
+                        <article class="benefit-card">
+                            <h3>Focus op resultaten</h3>
+                            <p>Gebruik AI-ondersteuning om sneller meer engagement te genereren.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="checkout-panel">
+                <div class="payment-card">
+                    <div class="payment-header">
+                        <span class="eyebrow">Betaling</span>
+                        <h2>Activeer je premium account</h2>
+                        <p>Kies je plan en betaal veilig via jouw favoriete methode.</p>
+                    </div>
+                    <div class="selected-price">
+                        <span>Geselecteerd plan</span>
+                        <strong id="selectedPlanName">Pro</strong>
+                        <div class="price-large" id="selectedPlanPrice">€9,99</div>
+                        <span class="price-subtitle">per maand</span>
+                    </div>
+
+                    <form id="paymentForm">
+                        <input type="hidden" id="selectedPlanInput" name="selectedPlan" value="pro">
+                        <div class="plan-selector">
+                            <label>
+                                <input type="radio" name="plan" value="starter">
+                                Starter
+                            </label>
+                            <label>
+                                <input type="radio" name="plan" value="pro" checked>
+                                Pro
+                            </label>
+                            <label>
+                                <input type="radio" name="plan" value="unlimited">
+                                Unlimited
+                            </label>
+                        </div>
+
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="creditcard" checked>
+                                <span>Credit Card</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="ideal">
+                                <span>iDEAL</span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="paypal">
+                                <span>PayPal</span>
+                            </label>
+                        </div>
+
+                        <div id="creditCardFields" class="payment-fields">
+                            <div class="input-group">
+                                <label>Card Number</label>
+                                <input type="text" placeholder="0000 0000 0000 0000" required>
+                            </div>
+                            <div class="card-details">
+                                <div class="input-group small">
+                                    <label>MM/YY</label>
+                                    <input type="text" placeholder="MM/YY" required>
+                                </div>
+                                <div class="input-group small">
+                                    <label>CVV</label>
+                                    <input type="text" placeholder="CVV" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Cardholder Name</label>
+                                <input type="text" placeholder="Naam kaarthouder" required>
+                            </div>
+                        </div>
+                        <div id="idealFields" class="payment-fields" style="display:none;">
+                            <p>Selecteer je bank voor iDEAL betaling.</p>
+                            <select required>
+                                <option value="">Kies je bank</option>
+                                <option value="ing">ING</option>
+                                <option value="rabobank">Rabobank</option>
+                                <option value="abnamro">ABN AMRO</option>
+                                <option value="sns">SNS</option>
+                            </select>
+                        </div>
+                        <div id="paypalFields" class="payment-fields" style="display:none;">
+                            <p>Je wordt doorgestuurd naar PayPal om je betaling te voltooien.</p>
+                        </div>
+                        <button type="submit" id="checkoutBtn" class="primary-btn">Betaal €9,99</button>
+                        <p class="payment-note">Geen verborgen kosten. Betaal veilig vanuit Nederland.</p>
+                    </form>
+                </div>
+            </aside>
+        </main>
+
+        <section class="faq-section" id="faq">
+            <div class="section-header">
+                <span class="eyebrow">Veelgestelde vragen</span>
+                <h2>Alles wat je moet weten</h2>
+            </div>
+            <div class="faq-list">
+                <article class="faq-item">
+                    <h3>Wat krijg ik met Premium?</h3>
+                    <p>Onbeperkte caption-generatie, contentplanning, saved drafts, trendinsights en prioriteitsondersteuning.</p>
+                </article>
+                <article class="faq-item">
+                    <h3>Hoe veilig is de betaling?</h3>
+                    <p>Deze demo gebruikt een eenvoudige checkoutflow voor gebruikerservaring; echte betalingen hebben een backend nodig.</p>
+                </article>
+                <article class="faq-item">
+                    <h3>Kan ik later upgraden?</h3>
+                    <p>Ja, je kunt altijd een hoger plan kiezen zodra je account live is.</p>
+                </article>
+                <article class="faq-item">
+                    <h3>Wat gebeurt er na betaling?</h3>
+                    <p>Je premium status wordt opgeslagen en je wordt teruggeleid naar de homepage.</p>
+                </article>
+            </div>
+        </section>
+
+        <footer class="checkout-footer">
+            <p>ViralCaption AI is ontworpen voor contentmakers die snel willen groeien. <a href="privacy-policy.html">Privacy Policy</a>.</p>
+        </footer>
+    </div>
+    <script src="checkout.js"></script>
+</body>
+</html>

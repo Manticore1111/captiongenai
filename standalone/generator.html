@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caption Generator - ViralCaption AI</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #e0e7ff;
+            --accent: #ec4899;
+            --accent-dark: #be185d;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+            --text: #374151;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--text);
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 30px 20px;
+            position: fixed;
+            width: 280px;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 12px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: flex;
+        }
+
+        .sidebar-header:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(4px);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .sidebar-menu a span {
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 35px 50px;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: var(--dark);
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        /* Form Layout */
+        .generator-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .topic-section {
+            margin-bottom: 12px;
+        }
+
+        .platform-tone-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 12px;
+        }
+
+        .options-section {
+            flex: 1;
+        }
+
+        .options-section label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .keywords-count-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: inherit;
+            color: var(--text);
+        }
+
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            padding-right: 40px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            background: var(--white);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        /* Button Group Selection */
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 8px;
+            margin-bottom: 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            border: none;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid var(--border);
+            padding: 12px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 700;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.15);
+        }
+
+        .option-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+        }
+
+        .option-icon {
+            font-size: 1.3rem;
+        }
+
+        .option-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        /* Tone Buttons - Smaller */
+        .tone-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+            margin-bottom: 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            border: none;
+        }
+
+        .tone-btn {
+            background: white;
+            border: 2px solid var(--border);
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 700;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .tone-btn:hover {
+            border-color: var(--primary);
+            background: white;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(99, 102, 241, 0.12);
+        }
+
+        .tone-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-light);
+        }
+
+        /* Results Section */
+        .results {
+            margin-top: 25px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        .results h3 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .caption-item {
+            background: linear-gradient(135deg, var(--primary-light), #f9f5ff);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .caption-item:hover {
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.15);
+            transform: translateX(4px);
+        }
+
+        .caption-text {
+            flex: 1;
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .caption-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+            flex-direction: column;
+        }
+
+        .copy-btn,
+        .save-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .save-btn {
+            background: var(--success);
+        }
+
+        .save-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        /* Placeholder */
+        .placeholder {
+            text-align: center;
+            padding: 40px 30px;
+            color: var(--text-light);
+            background: linear-gradient(135deg, var(--primary-light), #f9f5ff);
+            border-radius: 10px;
+            border: 2px dashed var(--border);
+        }
+
+        .placeholder p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Sidebar Cards */
+        .sidebar-card {
+            background: linear-gradient(135deg, var(--primary-light), #f9f5ff);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            border: 2px solid var(--primary);
+            box-shadow: 0 2px 10px rgba(99, 102, 241, 0.1);
+            transition: all 0.3s;
+        }
+
+        .sidebar-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .sidebar-card h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .sidebar-card p {
+            color: var(--text);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        /* Animation */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .platform-tone-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .keywords-count-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .button-group {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .tone-group {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .card {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                z-index: 999;
+                transition: left 0.3s;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .platform-tone-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .keywords-count-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .button-group {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+
+            .option-btn {
+                padding: 10px 8px;
+            }
+
+            .option-icon {
+                font-size: 1.2rem;
+            }
+
+            .tone-group {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+
+            .tone-btn {
+                padding: 6px;
+                font-size: 0.7rem;
+            }
+
+            .caption-item {
+                flex-direction: column;
+            }
+
+            .caption-actions {
+                width: 100%;
+            }
+
+            .copy-btn,
+            .save-btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="index.html" class="sidebar-header">
+                <span>⚡</span>
+                <span>ViralCaption</span>
+            </a>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><span>🏠</span> Dashboard</a></li>
+                <li><a href="generator.html" class="active"><span>✨</span> Generator</a></li>
+                <li><a href="saved-captions.html"><span>💾</span> Saved Captions</a></li>
+                <li><a href="library.html"><span>📚</span> My Library</a></li>
+                <li><a href="analytics.html"><span>📊</span> Analytics</a></li>
+                <li><a href="upgrade.html"><span>⭐</span> Upgrade Plan</a></li>
+            </ul>
+
+            <div style="position: absolute; bottom: 30px; left: 20px; right: 20px;">
+                <button class="btn btn-secondary" style="width: 100%;" onclick="logout()">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div>
+                    <h1>✨ Caption Generator</h1>
+                    <p style="color: var(--text-light); margin-top: 5px;">Create viral captions for your social media posts</p>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <!-- Generator Form -->
+                <div class="card">
+                    <h2>Generate Captions</h2>
+                    <form id="generatorForm" onsubmit="generateCaptions(event)" class="generator-form">
+                        <!-- Topic Section -->
+                        <div class="topic-section">
+                            <div class="form-group">
+                                <label>What would you like a caption for? *</label>
+                                <textarea id="topic" placeholder="E.g., A beautiful sunset photo, new product launch announcement, team celebration..." required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Platform & Tone Side by Side -->
+                        <div class="platform-tone-row">
+                            <!-- Platform Selection -->
+                            <div class="options-section">
+                                <label>📱 Choose Your Platform *</label>
+                                <div class="button-group" id="platformGroup">
+                                    <button type="button" class="option-btn" data-platform="tiktok" onclick="selectPlatform(event)">
+                                        <span class="option-icon">🎵</span>
+                                        <span class="option-label">TikTok</span>
+                                    </button>
+                                    <button type="button" class="option-btn" data-platform="instagram" onclick="selectPlatform(event)">
+                                        <span class="option-icon">📸</span>
+                                        <span class="option-label">Instagram</span>
+                                    </button>
+                                    <button type="button" class="option-btn" data-platform="youtube" onclick="selectPlatform(event)">
+                                        <span class="option-icon">📺</span>
+                                        <span class="option-label">YouTube</span>
+                                    </button>
+                                    <button type="button" class="option-btn" data-platform="twitter" onclick="selectPlatform(event)">
+                                        <span class="option-icon">𝕏</span>
+                                        <span class="option-label">Twitter/X</span>
+                                    </button>
+                                    <button type="button" class="option-btn" data-platform="facebook" onclick="selectPlatform(event)">
+                                        <span class="option-icon">👍</span>
+                                        <span class="option-label">Facebook</span>
+                                    </button>
+                                    <button type="button" class="option-btn" data-platform="linkedin" onclick="selectPlatform(event)">
+                                        <span class="option-icon">💼</span>
+                                        <span class="option-label">LinkedIn</span>
+                                    </button>
+                                </div>
+                                <input type="hidden" id="platform" required>
+                            </div>
+
+                            <!-- Tone Selection -->
+                            <div class="options-section">
+                                <label>🎯 Select Tone *</label>
+                                <div class="tone-group" id="toneGroup">
+                                    <button type="button" class="tone-btn" data-tone="funny" onclick="selectTone(event)">😂 Funny</button>
+                                    <button type="button" class="tone-btn" data-tone="inspirational" onclick="selectTone(event)">🌟 Inspirational</button>
+                                    <button type="button" class="tone-btn" data-tone="professional" onclick="selectTone(event)">💼 Professional</button>
+                                    <button type="button" class="tone-btn" data-tone="casual" onclick="selectTone(event)">😊 Casual</button>
+                                    <button type="button" class="tone-btn" data-tone="urgent" onclick="selectTone(event)">⚡ Urgent</button>
+                                    <button type="button" class="tone-btn" data-tone="educational" onclick="selectTone(event)">📚 Educational</button>
+                                </div>
+                                <input type="hidden" id="tone" required>
+                            </div>
+                        </div>
+
+                        <!-- Keywords & Count Row -->
+                        <div class="keywords-count-row">
+                            <div class="form-group">
+                                <label>Keywords (optional)</label>
+                                <input type="text" id="keywords" placeholder="E.g., summer, trending, must-see">
+                            </div>
+
+                            <div class="form-group">
+                                <label>How many captions?</label>
+                                <select id="count">
+                                    <option value="3">3 captions</option>
+                                    <option value="5" selected>5 captions</option>
+                                    <option value="10">10 captions</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">⚡ Generate Captions</button>
+                    </form>
+
+                    <!-- Results -->
+                    <div class="results" id="results">
+                        <h3>✨ Generated Captions</h3>
+                        <div id="captionsList"></div>
+                    </div>
+
+                    <!-- Placeholder -->
+                    <div class="placeholder" id="placeholder">
+                        <p>🎨 Fill in the form and click "Generate" to create viral captions</p>
+                        <p style="font-size: 0.9rem; color: var(--text-light);">AI will create captions optimized for your chosen platform</p>
+                    </div>
+                </div>
+
+                <!-- Sidebar Info -->
+                <div>
+                    <div class="card">
+                        <h2>📊 Usage Today</h2>
+                        <div style="text-align: center; padding: 20px 0;">
+                            <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;" id="usageCount">0/∞</div>
+                            <div style="color: var(--text-light); font-size: 0.9rem;">Captions generated</div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>💡 Pro Tip</h3>
+                        <p>
+                            Be specific about what your caption is for. The more details you provide, the better AI can generate relevant captions optimized for your audience.
+                        </p>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>⭐ Your Plan Details</h3>
+                        <p>
+                            <strong>Free Plan</strong><br>
+                            5 captions per day
+                        </p>
+                        <a href="upgrade.html" style="display: inline-block; background: var(--primary); color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.8rem; margin-top: 12px; transition: all 0.3s;">Upgrade to Pro →</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Session Manager
+        const SessionManager = {
+            TOKEN_KEY: 'vcai_auth_token',
+            USER_KEY: 'vcai_user_data',
+
+            getSession: function() {
+                const token = localStorage.getItem(this.TOKEN_KEY);
+                const user = localStorage.getItem(this.USER_KEY);
+                return {
+                    token,
+                    user: user ? JSON.parse(user) : null,
+                    isLoggedIn: !!token && !!user
+                };
+            },
+
+            clearSession: function() {
+                localStorage.removeItem(this.TOKEN_KEY);
+                localStorage.removeItem(this.USER_KEY);
+            }
+        };
+
+        // Check session
+        window.addEventListener('load', () => {
+            const session = SessionManager.getSession();
+            if (!session.isLoggedIn) {
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Platform Selection Handler
+        function selectPlatform(event) {
+            event.preventDefault();
+            const platform = event.currentTarget.dataset.platform;
+            
+            // Update hidden input
+            document.getElementById('platform').value = platform;
+            
+            // Remove active from all
+            document.querySelectorAll('#platformGroup .option-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active to clicked
+            event.currentTarget.classList.add('active');
+        }
+
+        // Tone Selection Handler
+        function selectTone(event) {
+            event.preventDefault();
+            const tone = event.currentTarget.dataset.tone;
+            
+            // Update hidden input
+            document.getElementById('tone').value = tone;
+            
+            // Remove active from all
+            document.querySelectorAll('#toneGroup .tone-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active to clicked
+            event.currentTarget.classList.add('active');
+        }
+
+        function generateCaptions(e) {
+            e.preventDefault();
+
+            // Validate selections
+            const platform = document.getElementById('platform').value;
+            const tone = document.getElementById('tone').value;
+            
+            if (!platform) {
+                alert('⚠️ Please select a platform');
+                return;
+            }
+            
+            if (!tone) {
+                alert('⚠️ Please select a tone');
+                return;
+            }
+
+            const topic = document.getElementById('topic').value;
+            const keywords = document.getElementById('keywords').value;
+            const count = parseInt(document.getElementById('count').value);
+
+            // Generate captions
+            const captions = generateCaptionList(topic, platform, tone, keywords, count);
+
+            // Display results
+            const captionsList = document.getElementById('captionsList');
+            captionsList.innerHTML = captions.map((caption, i) => `
+                <div class="caption-item">
+                    <div class="caption-text">${caption}</div>
+                    <div class="caption-actions">
+                        <button type="button" class="copy-btn" onclick="copyCaption('${caption.replace(/'/g, "\\'")}')">📋 Copy</button>
+                        <button type="button" class="save-btn" onclick="saveCaption('${caption.replace(/'/g, "\\'")}')">💾 Save</button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('results').classList.add('show');
+        }
+
+        function generateCaptionList(topic, platform, tone, keywords, count) {
+            const captions = [];
+            const toneEmojis = {
+                funny: '😂',
+                inspirational: '🌟',
+                professional: '💼',
+                casual: '😊',
+                urgent: '⚡',
+                educational: '📚'
+            };
+            const emoji = toneEmojis[tone] || '✨';
+
+            const templates = [
+                `${emoji} ${topic} - This is absolutely ${tone}!`,
+                `🔥 Just shared: ${topic} #viral #trending`,
+                `💡 ${topic} - You won't believe what happens next`,
+                `✨ ${topic} ${keywords ? '| ' + keywords : ''}`,
+                `🚀 Here's why ${topic}...`,
+                `⭐ ${topic} - Best moment yet!`,
+                `💫 ${topic} | ${tone} edition`,
+                `📱 ${topic} - Go viral now!`,
+                `🎯 ${topic} is here and it's amazing`,
+                `🌟 Why ${topic} matters | ${tone}`
+            ];
+
+            for (let i = 0; i < count; i++) {
+                captions.push(templates[i % templates.length]);
+            }
+
+            return captions;
+        }
+
+        function copyCaption(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ Caption copied to clipboard!');
+            });
+        }
+
+        function saveCaption(text) {
+            let saved = localStorage.getItem('vcai_saved_captions');
+            const captions = saved ? JSON.parse(saved) : [];
+            
+            if (!captions.includes(text)) {
+                captions.push(text);
+                localStorage.setItem('vcai_saved_captions', JSON.stringify(captions));
+                alert('💾 Caption saved!');
+            } else {
+                alert('⚠️ Caption already saved!');
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                SessionManager.clearSession();
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

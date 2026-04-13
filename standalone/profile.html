@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - ViralCaption AI</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #e0e7ff;
+            --accent: #ec4899;
+            --accent-dark: #be185d;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+            --text: #374151;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .back-btn {
+            background: var(--light);
+            border: 2px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Profile Grid */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Profile Side Panel */
+        .profile-panel {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .profile-name {
+            font-size: 1.3rem;
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .profile-email {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .profile-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            width: 100%;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 2px solid var(--border);
+        }
+
+        .profile-stat {
+            margin-bottom: 15px;
+        }
+
+        .profile-stat strong {
+            display: block;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .profile-stat span {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .upload-btn {
+            width: 100%;
+            padding: 10px;
+            background: var(--light);
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            margin-top: 20px;
+        }
+
+        .upload-btn:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Edit Form */
+        .profile-form {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h3 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        .form-groups {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid var(--border);
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Divider Card */
+        .divider-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+            margin-top: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .divider-card h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .divider-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        /* Saved Captions Section */
+        .saved-captions-header {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .divider-card h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .divider-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .danger-zone {
+            background: rgba(239, 68, 68, 0.05);
+            border-left-color: var(--danger);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: var(--success);
+            font-weight: 600;
+            animation: slideDown 0.3s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>👤 My Profile</h1>
+            <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            ✅ Profile updated successfully!
+        </div>
+
+        <!-- Profile Grid -->
+        <div class="profile-grid">
+            <!-- Profile Panel -->
+            <div class="profile-panel">
+                <div class="profile-avatar" id="profileAvatar">👤</div>
+                <div class="profile-name" id="profileName">User Name</div>
+                <div class="profile-email" id="profileEmail">user@example.com</div>
+                <div class="profile-badge" id="profileBadge">Free Plan</div>
+
+                <button class="upload-btn" onclick="document.getElementById('avatarInput').click()">
+                    📸 Change Avatar
+                </button>
+                <input type="file" id="avatarInput" style="display: none;" accept="image/*">
+
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <strong id="statCaptions">0</strong>
+                        <span>Captions Created</span>
+                    </div>
+                    <div class="profile-stat">
+                        <strong id="statSaved">0</strong>
+                        <span>Captions Saved</span>
+                    </div>
+                    <div class="profile-stat">
+                        <strong id="joinDate">Today</strong>
+                        <span>Member Since</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Form -->
+            <div class="profile-form">
+                <form id="profileForm">
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <h3>👤 Personal Information</h3>
+                        <div class="form-groups">
+                            <div class="form-group">
+                                <label>First Name *</label>
+                                <input type="text" id="firstName" placeholder="Enter your first name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name *</label>
+                                <input type="text" id="lastName" placeholder="Enter your last name" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Email Address *</label>
+                                <input type="email" id="email" placeholder="your@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" id="phone" placeholder="+1 (555) 000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label>Country</label>
+                                <select id="country">
+                                    <option value="">Select country...</option>
+                                    <option value="us">🇺🇸 United States</option>
+                                    <option value="uk">🇬🇧 United Kingdom</option>
+                                    <option value="nl">🇳🇱 Netherlands</option>
+                                    <option value="ca">🇨🇦 Canada</option>
+                                    <option value="de">🇩🇪 Germany</option>
+                                    <option value="fr">🇫🇷 France</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Information -->
+                    <div class="form-section">
+                        <h3>💼 Professional Information</h3>
+                        <div class="form-groups">
+                            <div class="form-group full-width">
+                                <label>Job Title</label>
+                                <input type="text" id="jobTitle" placeholder="E.g., Social Media Manager">
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Company</label>
+                                <input type="text" id="company" placeholder="Your company name">
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Bio</label>
+                                <textarea id="bio" placeholder="Tell us about yourself..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification Preferences -->
+                    <div class="form-section">
+                        <h3>🔔 Preferences</h3>
+                        <div class="form-groups">
+                            <div class="form-group full-width" style="margin-bottom: 15px;">
+                                <label>
+                                    <input type="checkbox" id="emailNotif" checked> 
+                                    <span style="margin-left: 8px;">Receive email notifications</span>
+                                </label>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>
+                                    <input type="checkbox" id="newsNotif" checked>
+                                    <span style="margin-left: 8px;">Subscribe to newsletter & updates</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                        <button type="reset" class="btn btn-secondary">↻ Discard Changes</button>
+                    </div>
+                </form>
+
+                <!-- Divider Section -->
+                <div class="divider-card">
+                    <h3>🔐 Change Password</h3>
+                    <p>Keep your account secure by updating your password regularly.</p>
+                    <a href="change-password.html" style="display: inline-block; background: var(--primary); color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                        Change Password
+                    </a>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="divider-card danger-zone">
+                    <h3>⚠️ Danger Zone</h3>
+                    <p>Deleting your account is permanent and cannot be undone. All your data will be lost.</p>
+                    <button class="btn btn-danger" onclick="deleteAccount()" style="width: 100%;">🗑️ Delete My Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SessionManager = {
+            TOKEN_KEY: 'vcai_auth_token',
+            USER_KEY: 'vcai_user_data',
+
+            getSession: function() {
+                const token = localStorage.getItem(this.TOKEN_KEY);
+                const user = localStorage.getItem(this.USER_KEY);
+                return {
+                    token,
+                    user: user ? JSON.parse(user) : null,
+                    isLoggedIn: !!token && !!user
+                };
+            },
+
+            updateUser: function(userData) {
+                const token = localStorage.getItem(this.TOKEN_KEY);
+                const updatedUser = { ...this.getSession().user, ...userData };
+                localStorage.setItem(this.USER_KEY, JSON.stringify(updatedUser));
+            }
+        };
+
+        // Check session
+        window.addEventListener('load', () => {
+            const session = SessionManager.getSession();
+            if (!session.isLoggedIn) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            loadProfileData();
+        });
+
+        function loadProfileData() {
+            const session = SessionManager.getSession();
+            const user = session.user || {};
+
+            // Update profile display
+            document.getElementById('profileName').textContent = user.name || 'User Name';
+            document.getElementById('profileEmail').textContent = user.email || 'user@example.com';
+            document.getElementById('profileAvatar').textContent = (user.name || 'U')[0].toUpperCase();
+            document.getElementById('profileBadge').textContent = (user.plan || 'free').toUpperCase() + ' Plan';
+
+            // Update stats
+            document.getElementById('statCaptions').textContent = user.captionsGenerated || 0;
+            
+            const saved = localStorage.getItem('vcai_saved_captions');
+            const savedCount = saved ? JSON.parse(saved).length : 0;
+            document.getElementById('statSaved').textContent = savedCount;
+
+            // Update join date
+            const joinDate = user.joinDate || new Date().toLocaleDateString();
+            document.getElementById('joinDate').textContent = joinDate;
+
+            // Load form fields
+            const names = (user.name || '').split(' ');
+            document.getElementById('firstName').value = names[0] || '';
+            document.getElementById('lastName').value = names[1] || '';
+            document.getElementById('email').value = user.email || '';
+            document.getElementById('phone').value = user.phone || '';
+            document.getElementById('jobTitle').value = user.jobTitle || '';
+            document.getElementById('company').value = user.company || '';
+            document.getElementById('bio').value = user.bio || '';
+        }
+
+        // Form submission
+        document.getElementById('profileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const userData = {
+                name: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                jobTitle: document.getElementById('jobTitle').value,
+                company: document.getElementById('company').value,
+                bio: document.getElementById('bio').value
+            };
+
+            SessionManager.updateUser(userData);
+
+            // Show success message
+            const msg = document.getElementById('successMessage');
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 3000);
+
+            loadProfileData();
+        });
+
+        function deleteAccount() {
+            if (confirm('⚠️ Are you absolutely sure? This action CANNOT be undone and will delete all your data.')) {
+                if (confirm('Last confirmation: Delete everything?')) {
+                    localStorage.clear();
+                    window.location.href = 'login.html';
+                }
+            }
+        }
+
+        // Avatar upload
+        document.getElementById('avatarInput').addEventListener('change', (e) => {
+            if (e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    document.getElementById('profileAvatar').style.backgroundImage = `url(${event.target.result})`;
+                    document.getElementById('profileAvatar').style.backgroundSize = 'cover';
+                    document.getElementById('profileAvatar').textContent = '';
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+    </script>
+</body>
+</html>

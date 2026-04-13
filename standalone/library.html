@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caption Library - ViralCaption AI</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #e0e7ff;
+            --accent: #ec4899;
+            --accent-dark: #be185d;
+            --success: #10b981;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+            --text: #374151;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--text);
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 30px 20px;
+            position: fixed;
+            width: 280px;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 12px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: flex;
+        }
+
+        .sidebar-header:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(4px);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .sidebar-menu a span {
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .header-right {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-box,
+        .filter-select {
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .search-box:focus,
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Template Grid */
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .template-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .template-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 20px;
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .template-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .template-category {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .template-body {
+            padding: 20px;
+        }
+
+        .template-example {
+            background: var(--light);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.5;
+            border-left: 3px solid var(--primary);
+        }
+
+        .template-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .template-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--border);
+            background: white;
+            color: var(--text);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .empty-state h2 {
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                z-index: 999;
+                transition: left 0.3s;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-right {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .search-box,
+            .filter-select {
+                width: 100%;
+            }
+
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .categories {
+                flex-direction: column;
+            }
+
+            .category-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="index.html" class="sidebar-header">
+                <span>⚡</span>
+                <span>ViralCaption</span>
+            </a>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><span>🏠</span> Dashboard</a></li>
+                <li><a href="generator.html"><span>✨</span> Generator</a></li>
+                <li><a href="saved-captions.html"><span>💾</span> Saved Captions</a></li>
+                <li><a href="library.html" class="active"><span>📚</span> My Library</a></li>
+                <li><a href="analytics.html"><span>📊</span> Analytics</a></li>
+                <li><a href="upgrade.html"><span>⭐</span> Upgrade Plan</a></li>
+            </ul>
+
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <h1>📚 Caption Template Library</h1>
+                </div>
+                <div class="header-right">
+                    <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search templates..." onkeyup="filterTemplates()">
+                    <select class="filter-select" id="categoryFilter" onchange="filterByCategory()">
+                        <option value="">All Categories</option>
+                        <option value="business">💼 Business</option>
+                        <option value="lifestyle">🌟 Lifestyle</option>
+                        <option value="promotional">🎯 Promotional</option>
+                        <option value="engagement">💬 Engagement</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Categories Filter -->
+            <div class="categories">
+                <button class="category-btn active" onclick="filterCategory(this, '')">All Templates</button>
+                <button class="category-btn" onclick="filterCategory(this, 'business')">💼 Business</button>
+                <button class="category-btn" onclick="filterCategory(this, 'lifestyle')">🌟 Lifestyle</button>
+                <button class="category-btn" onclick="filterCategory(this, 'promotional')">🎯 Promotional</button>
+                <button class="category-btn" onclick="filterCategory(this, 'engagement')">💬 Engagement</button>
+            </div>
+
+            <!-- Templates Grid -->
+            <div class="templates-grid" id="templatesGrid">
+                <!-- Templates will be inserted here -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const templates = [
+            {
+                id: 1,
+                title: 'Problem → Solution',
+                category: 'business',
+                example: '❌ [Problem] is hurting your [result]\\n✅ Here\'s how we fixed it...',
+                platforms: ['LinkedIn', 'Twitter', 'Instagram'],
+                uses: '💼 Professional'
+            },
+            {
+                id: 2,
+                title: 'Story Hook',
+                category: 'lifestyle',
+                example: 'This is my [story]... and it changed everything. [Result].',
+                platforms: ['Instagram', 'TikTok', 'LinkedIn'],
+                uses: '📖 Storytelling'
+            },
+            {
+                id: 3,
+                title: 'Limited Time Offer',
+                category: 'promotional',
+                example: '⏰ Only [timeframe] left to grab [offer]\\n🎁 Save [discount]% today!',
+                platforms: ['Instagram', 'Facebook', 'Twitter'],
+                uses: '🚀 Sales'
+            },
+            {
+                id: 4,
+                title: 'Ask a Question',
+                category: 'engagement',
+                example: 'Which would you choose: [option A] or [option B]?\\nComment below 👇',
+                platforms: ['Instagram', 'TikTok', 'Facebook'],
+                uses: '💬 Engagement'
+            },
+            {
+                id: 5,
+                title: 'Milestone Celebration',
+                category: 'lifestyle',
+                example: '🎉 [Milestone achieved]!\\nThank you to everyone who made this possible.',
+                platforms: ['LinkedIn', 'Instagram', 'Twitter'],
+                uses: '⭐ Success'
+            },
+            {
+                id: 6,
+                title: 'Educational Series',
+                category: 'business',
+                example: '📚 Tip [number]: [Learn something valuable]\\nSave this for later! 📌',
+                platforms: ['Instagram', 'TikTok', 'LinkedIn'],
+                uses: '🎓 Education'
+            },
+            {
+                id: 7,
+                title: 'Controversial Take',
+                category: 'engagement',
+                example: 'Hot take: [Your opinion]\\nDo you agree or disagree? 🔥',
+                platforms: ['Twitter', 'LinkedIn', 'Instagram'],
+                uses: '💭 Discussion'
+            },
+            {
+                id: 8,
+                title: 'Behind The Scenes',
+                category: 'lifestyle',
+                example: 'Behind the scenes of [project]... It\'s messier than you think 😅',
+                platforms: ['Instagram', 'TikTok', 'YouTube'],
+                uses: '🎬 BTS'
+            },
+            {
+                id: 9,
+                title: 'List Post',
+                category: 'business',
+                example: '[Number] ways to [achieve result]:\\n1️⃣ [Tip]\\n2️⃣ [Tip]\\n3️⃣ [Tip]',
+                platforms: ['LinkedIn', 'Twitter', 'Instagram'],
+                uses: '📋 Tips'
+            },
+            {
+                id: 10,
+                title: 'Urgency/Scarcity',
+                category: 'promotional',
+                example: '⚠️ Only [inventory] left in stock\\nDon\'t miss out... link in bio 🔗',
+                platforms: ['Instagram', 'TikTok', 'Facebook'],
+                uses: '🔥 FOMO'
+            },
+            {
+                id: 11,
+                title: 'Before/After',
+                category: 'business',
+                example: '❌ Before: [Old reality]\\n✅ After: [New reality]\\nHere\'s what changed...',
+                platforms: ['Instagram', 'LinkedIn', 'YouTube'],
+                uses: '📊 Transformation'
+            },
+            {
+                id: 12,
+                title: 'Hype Builder',
+                category: 'promotional',
+                example: '🚨 Something big is coming...\\n👀 Who\'s excited?\\n📢 Stay tuned!',
+                platforms: ['Instagram', 'Twitter', 'TikTok'],
+                uses: '🎯 Teaser'
+            }
+        ];
+
+        // Session Manager
+        const SessionManager = {
+            TOKEN_KEY: 'vcai_auth_token',
+            USER_KEY: 'vcai_user_data',
+
+            getSession: function() {
+                const token = localStorage.getItem(this.TOKEN_KEY);
+                const user = localStorage.getItem(this.USER_KEY);
+                return {
+                    token,
+                    user: user ? JSON.parse(user) : null,
+                    isLoggedIn: !!token && !!user
+                };
+            },
+
+            clearSession: function() {
+                localStorage.removeItem(this.TOKEN_KEY);
+                localStorage.removeItem(this.USER_KEY);
+            }
+        };
+
+        // Initialize
+        window.addEventListener('load', () => {
+            const session = SessionManager.getSession();
+            if (!session.isLoggedIn) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            renderTemplates(templates);
+        });
+
+        function renderTemplates(templatesToRender) {
+            const grid = document.getElementById('templatesGrid');
+            
+            if (templatesToRender.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <div class="empty-state-icon">📋</div>
+                        <h2>No templates found</h2>
+                        <p>Try adjusting your search or category filter</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = templatesToRender.map(template => `
+                <div class="template-card">
+                    <div class="template-header">
+                        <div class="template-title">${template.title}</div>
+                        <div class="template-category">${template.uses}</div>
+                    </div>
+                    <div class="template-body">
+                        <div class="template-example">"${template.example}"</div>
+                        <div class="template-meta">
+                            <span>📱 ${template.platforms.join(', ')}</span>
+                            <span>ID: #${template.id}</span>
+                        </div>
+                        <div class="template-actions">
+                            <button class="btn btn-primary" onclick="useTemplate(${template.id}, '${template.example.replace(/'/g, "\\'")}')" title="Use this template">Use</button>
+                            <button class="btn btn-secondary" onclick="saveTemplate(${template.id})" title="Save for later">💾</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(btn, category) {
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (category === '') {
+                renderTemplates(templates);
+            } else {
+                const filtered = templates.filter(t => t.category === category);
+                renderTemplates(filtered);
+            }
+        }
+
+        function filterByCategory() {
+            const category = document.getElementById('categoryFilter').value;
+            if (category) {
+                const filtered = templates.filter(t => t.category === category);
+                renderTemplates(filtered);
+            } else {
+                renderTemplates(templates);
+            }
+        }
+
+        function filterTemplates() {
+            const search = document.getElementById('searchBox').value.toLowerCase();
+            const filtered = templates.filter(t => 
+                t.title.toLowerCase().includes(search) || 
+                t.example.toLowerCase().includes(search) ||
+                t.uses.toLowerCase().includes(search)
+            );
+            renderTemplates(filtered);
+        }
+
+        function useTemplate(id, example) {
+            const template = templates.find(t => t.id === id);
+            alert(`✨ Template "${template.title}" copied!\\n\\nExample:\\n${example}\\n\\nEdit and customize in the generator.`);
+            // In a real app, this would redirect to generator with template pre-filled
+        }
+
+        function saveTemplate(id) {
+            const template = templates.find(t => t.id === id);
+            alert(`💾 Template "${template.title}" added to your favorites!`);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                SessionManager.clearSession();
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

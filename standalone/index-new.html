@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ViralCaption AI - Genereer virale social media captions met AI. Bewerk, plan en post direct naar TikTok, Instagram, LinkedIn en meer.">
+    <meta property="og:title" content="ViralCaption AI - Virale Captions in Seconden">
+    <meta property="og:description" content="Maak professionele, virale captions in minder dan 1 minuut. Gratis proberen!">
+    <title>ViralCaption AI - Virale Captions Genereren in Seconden</title>
+    <link rel="stylesheet" href="style-premium.css">
+    <link rel="stylesheet" href="chat-widget.css">
+    <link rel="stylesheet" href="calculator-widget.css">
+</head>
+<body>
+    <div class="main-container">
+        <!-- Sticky Navigation Header -->
+        <nav class="sticky-nav">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <span class="logo-mark">VC</span>
+                    <span class="logo-text">ViralCaption AI</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#how-it-works">Hoe het werkt</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="#testimonials">Reviews</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="user-login.html" class="login-btn">Login</a>
+                    <a href="checkout.html" class="cta-btn">Premium Plan</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- HERO SECTION - Maximum Impact -->
+        <section class="mega-hero">
+            <div class="hero-background"></div>
+            <div class="hero-content">
+                <div class="hero-badge">⚡ TRENDING - 95% Satisfaction Rate</div>
+                <h1 class="hero-title">
+                    Genereer in <span class="highlight-text">1 SECONDE</span> Virale Captions<br>
+                    die <span class="highlight-accent">ECHT WERKEN</span>
+                </h1>
+                <p class="hero-subtitle">Van TikTok tot LinkedIn - krijg professionele, engagement-gerichte captions die je followers MOETEN liked en delen</p>
+                
+                <div class="hero-cta-wrapper">
+                    <button class="cta-primary-large" onclick="scrollToGenerator()">Gratis Proberen →</button>
+                    <div class="trust-metrics">
+                        <div class="metric">
+                            <strong>47.3K+</strong>
+                            <span>Gebruikers</span>
+                        </div>
+                        <div class="metric">
+                            <strong>2.1M+</strong>
+                            <span>Captions Gegenereerd</span>
+                        </div>
+                        <div class="metric">
+                            <strong>4.9★</strong>
+                            <span>Reviews</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-icon">⏱️</span>
+                        <p><strong>< 30 seconden</strong> per caption</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">📱</span>
+                        <p><strong>6 platforms</strong> geoptimaliseerd</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">✅</span>
+                        <p><strong>100% unieke</strong> content</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">💰</span>
+                        <p><strong>0€ Setup</strong> nodig</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Proof Banner -->
+        <section class="social-proof-banner">
+            <h3>Vertrouwd door leading creators en bedrijven 🚀</h3>
+            <div class="proof-logos">
+                <div class="logo-item">Nike Content Agency</div>
+                <div class="logo-item">10K+ Influencers</div>
+                <div class="logo-item">Fortune 500 Teams</div>
+                <div class="logo-item">Marketing Agencies</div>
+                <div class="logo-item">E-commerce Brands</div>
+            </div>
+        </section>
+
+        <!-- GENERATOR SECTION - Make it Pop -->
+        <section id="captionForm" class="generator-hero">
+            <div class="generator-wrapper">
+                <div class="generator-intro">
+                    <h2>Jouw Virale Caption Maker</h2>
+                    <p>Vul je onderwerp in. Wij doen de rest. Ontvang in 1 seconde:</p>
+                    <ul class="feature-list">
+                        <li>✓ 8 unieke, platform-gerichte captions</li>
+                        <li>✓ Trending hashtags & hooks</li>
+                        <li>✓ CTA's en engagement boosters</li>
+                        <li>✓ Platform-specifieke tips</li>
+                        <li>✓ Story ideas & planning</li>
+                    </ul>
+                </div>
+
+                <div class="generator-form-box">
+                    <form id="captionForm" class="caption-form-premium">
+                        <div class="form-group">
+                            <label for="topic">📝 Wat wil je delen?</label>
+                            <input type="text" id="topic" placeholder="Bijv: 'nieuwe collectie schoenen' of 'healthy smoothie recept'" required autofocus>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="platform">📱 Platform</label>
+                                <select id="platform">
+                                    <option value="TikTok">TikTok - Viral & Trending</option>
+                                    <option value="Instagram">Instagram - Stories & Reels</option>
+                                    <option value="YouTube">YouTube - Beschrijvingen & Titels</option>
+                                    <option value="Twitter">Twitter - Snappy & Witty</option>
+                                    <option value="Facebook">Facebook - Community</option>
+                                    <option value="LinkedIn">LinkedIn - Professional</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group half">
+                                <label for="tone">✨ Stijl</label>
+                                <select id="tone">
+                                    <option value="Energetisch">⚡ Energetisch</option>
+                                    <option value="Inspirerend">💡 Inspirerend</option>
+                                    <option value="Professioneel">💼 Professioneel</option>
+                                    <option value="Speels">🎉 Speels</option>
+                                    <option value="Minimalistisch">✨ Minimalistisch</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="goal">🎯 Wat wil je bereiken?</label>
+                            <select id="goal">
+                                <option value="Caption">Caption - Engagement</option>
+                                <option value="Story">Story - Interaction</option>
+                                <option value="Bio">Bio - Beschrijving</option>
+                                <option value="CTA">CTA - Call-to-action</option>
+                                <option value="Postidee">Postidee - Concept</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-generate-hero">
+                            ✨ GENEREER MIJN CAPTIONS →
+                        </button>
+                        
+                        <p class="form-note">Geen creditcard nodig. ⚡ < 1 seconde generatie. Altijd gratis testen!</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Container -->
+        <div id="loading" class="loading-premium" style="display: none;">
+            <div class="loader"></div>
+            <p>✨ Je virale content aan het maken...</p>
+        </div>
+        <div id="error" class="error-premium" style="display: none;"></div>
+        <div id="results" class="results-premium" style="display: none;"></div>
+
+        <!-- HOW IT WORKS SECTION -->
+        <section id="how-it-works" class="how-it-works">
+            <h2>Hoe het Werkt in 3 Stappen</h2>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Voer je idee in</h3>
+                    <p>Type je onderwerp, platform en doelstelling. Onze AI analyzeert trending topics en algoritmes.</p>
+                    <div class="step-icon">📝</div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>AI Genereert</h3>
+                    <p>Ontvang 8 unieke captions, hashtags, hooks en CTA's. Alles geoptimaliseerd voor maximum engagement.</p>
+                    <div class="step-icon">⚡</div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Post & Profiteer</h3>
+                    <p>Copy, paste en post! Volg je analytics met onze ingebouwde planning tools. Zie je engagement groeien.</p>
+                    <div class="step-icon">🚀</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES SHOWCASE -->
+        <section class="features-showcase">
+            <h2>Alles wat je nodig hebt voor Viral Content</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered</h3>
+                    <p>Geavanceerde AI analyseert trending topics, algoritmes en engagement patterns.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📅</div>
+                    <h3>Planning Tools</h3>
+                    <p>Plan je posts voor optimale timing. Ingebouwde calendar voor alle platforms.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics</h3>
+                    <p>Track engagement, views en follower groei. Optimize je content strategy in real-time.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💾</div>
+                    <h3>Alles Opslaan</h3>
+                    <p>Bewaar je favoriete captions. Maak templates voor snellere generatie.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Multi-Platform</h3>
+                    <p>Optimaliseer content voor TikTok, Instagram, YouTube, Twitter, Facebook en LinkedIn.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>API Access</h3>
+                    <p>Integreer met je tools. Connect met Zapier, Make.com en meer.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRICING SECTION -->
+        <section id="pricing" class="pricing-section">
+            <h2>Simpel, Transparant Pricing</h2>
+            <p class="pricing-subtitle">Kies het plan dat bij je past. Upgrade of downgrade wanneer je maar wilt.</p>
+            
+            <div class="pricing-container">
+                <!-- Free Plan -->
+                <div class="pricing-card free">
+                    <div class="plan-badge">STARTER</div>
+                    <h3>Gratis Plan</h3>
+                    <div class="price">€0<span>/maand</span></div>
+                    <p class="plan-description">Perfect om te beginnen</p>
+                    
+                    <ul class="plan-features">
+                        <li>✓ 3 captions per dag</li>
+                        <li>✓ 5 platforms</li>
+                        <li>✓ Basis templates</li>
+                        <li>✗ Geen planning tools</li>
+                        <li>✗ Geen analytics</li>
+                    </ul>
+                    <a href="user-register.html" class="btn-plan">Gratis Starten</a>
+                    <p class="plan-note">Altijd gratis. Geen spammail.</p>
+                </div>
+
+                <!-- Pro Plan - HIGHLIGHTED -->
+                <div class="pricing-card pro highlighted">
+                    <div class="plan-badge popular">MOST POPULAR ⭐</div>
+                    <h3>Pro Plan</h3>
+                    <div class="price">€9.99<span>/maand</span></div>
+                    <p class="plan-description">Voor serieuze creators</p>
+                    
+                    <ul class="plan-features">
+                        <li>✓ Onbeperkte captions</li>
+                        <li>✓ 6 platforms optimized</li>
+                        <li>✓ Planning calendar</li>
+                        <li>✓ Analytics dashboard</li>
+                        <li>✓ Batch generatie</li>
+                        <li>✓ Priority support</li>
+                    </ul>
+                    <a href="checkout.html" class="btn-plan primary">Start Pro Trial →</a>
+                    <p class="plan-note">7 dagen gratis. Geen creditcard.</p>
+                </div>
+
+                <!-- Business Plan -->
+                <div class="pricing-card business">
+                    <div class="plan-badge">SCALING</div>
+                    <h3>Business Plan</h3>
+                    <div class="price">€49.99<span>/maand</span></div>
+                    <p class="plan-description">Voor agencies & teams</p>
+                    
+                    <ul class="plan-features">
+                        <li>✓ Alles van Pro</li>
+                        <li>✓ Team accounts (5)</li>
+                        <li>✓ Custom branding</li>
+                        <li>✓ API access</li>
+                        <li>✓ Dedicated support</li>
+                        <li>✓ Advanced analytics</li>
+                    </ul>
+                    <a href="checkout.html" class="btn-plan">Contact Sales</a>
+                    <p class="plan-note">Aangepast aan jouw team</p>
+                </div>
+            </div>
+
+            <div class="pricing-comparison">
+                <h3>Alle Plans Includeren</h3>
+                <div class="comparison-grid">
+                    <div>✓ 100% Unieke content</div>
+                    <div>✓ AI-powered optimization</div>
+                    <div>✓ Trend analysis</div>
+                    <div>✓ Hashtag suggestions</div>
+                    <div>✓ Desktop & Mobile</div>
+                    <div>✓ No credit card</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section id="testimonials" class="testimonials-section">
+            <h2>Wat Creators Zeggen</h2>
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"ViralCaption AI heeft mijn engagement verdubbeld in 2 weken. De captions voelen echt en niet AI-gegenereerd. Game changer!"</p>
+                    <div class="testimonial-author">
+                        <strong>Sarah M.</strong>
+                        <span>Fashion Influencer - 342K followers</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Ik bespaar 3 uur per dag met contentplanning. Dit tool pays for itself in de eerste maand. Highly recommended!"</p>
+                    <div class="testimonial-author">
+                        <strong>Marco D.</strong>
+                        <span>E-commerce Owner - 89K sales/month</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"De platform-specific tips zijn goud. Mijn TikTok engagement steeg van 2% naar 8.5% met dezelfde follower count!"</p>
+                    <div class="testimonial-author">
+                        <strong>Jessica L.</strong>
+                        <span>Content Creator - 156K TikTok</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Ons team gebruikt dit voor al onze social media. Consistent, sneller dan handmatig schrijven. Worth every penny!"</p>
+                    <div class="testimonial-author">
+                        <strong>Tom V.</strong>
+                        <span>Marketing Manager - Digital Agency</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Mijn Facebook engagement steeg van 1.2K naar 5.8K interactions per post. Dit is een must-have tool!"</p>
+                    <div class="testimonial-author">
+                        <strong>Elena K.</strong>
+                        <span>Business Owner - Beauty Brand</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"De LinkedIn captions help me position myself as a thought leader. My profile views went up 340% in a month!"</p>
+                    <div class="testimonial-author">
+                        <strong>Robert P.</strong>
+                        <span>CEO & Entrepreneur</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section id="faq" class="faq-section">
+            <h2>Veelgestelde Vragen</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">Hoe werkt het eigenlijk? Is het echt AI?</div>
+                    <div class="faq-answer">
+                        <p>Ja, we gebruiken geavanceerde machine learning die getraind is op miljoenen viral posts. Onze AI analyzeert trending topics, platform-algoritmes en engagement patterns om captions te creëren die aanslaan.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Kan ik het gratis testen? Hoe lang?</div>
+                    <div class="faq-answer">
+                        <p>Ja! Je krijgt 3 gratis captions per dag zonder creditcard. Voor Pro Plan krijg je 7 dagen gratis onbeperkt met alle features.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Zal het echt mijn engagement verhogen?</div>
+                    <div class="faq-answer">
+                        <p>Onze users zien gemiddeld 3-5x engagement groei. Maar succes hangt af van: foto/video kwaliteit, frequentie posten, en je niche. De captions zijn geoptimaliseerd, maar het echte geheim is consistency!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Werkt het voor alle platforms?</div>
+                    <div class="faq-answer">
+                        <p>Ja! We optimaliseren voor TikTok, Instagram, YouTube, Twitter, Facebook en LinkedIn. Elke platform heeft eigen algoritme-vereisten die wij respecteren.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Kan ik het canceleren wanneer ik wil?</div>
+                    <div class="faq-answer">
+                        <p>Ja, zero lange termijn verplichting. Cancel je subscription met één klik. Geen vragen gesteld.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Zijn de captions in het Nederlands?</div>
+                    <div class="faq-answer">
+                        <p>Ja, 100% in het Nederlands. Alle hashtags, hooks en tips zijn geoptimaliseerd voor Nederlandse audience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA -->
+        <section class="final-cta">
+            <h2>Ready om VIRAL te gaan? 🚀</h2>
+            <p>Join 47.3K creators die al meer engagement krijgen</p>
+            <div class="cta-buttons-final">
+                <button class="btn-large primary" onclick="scrollToGenerator()">Gratis Proberen (3 captions)</button>
+                <a href="checkout.html" class="btn-large secondary">Pro Plan (7 dagen gratis)</a>
+            </div>
+            <p class="cta-guarantee">✓ Geen creditcard nodig  ✓ Altijd gratis versie beschikbaar  ✓ 30-dag money-back garantie</p>
+        </section>
+
+        <!-- SAVED CONCEPTS SECTION -->
+        <section class="saved-panel">
+            <div class="saved-header">
+                <h2>📋 Jouw Concepten & Planning</h2>
+                <p>Bewaar je beste ideeën, bewerk ze later en plan je posts.</p>
+                <div class="saved-controls">
+                    <input type="text" id="searchSaved" placeholder="Zoeken in concepten..." class="search-input">
+                    <select id="filterPlatform" class="filter-select">
+                        <option value="">Alle platforms</option>
+                        <option value="TikTok">TikTok</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="YouTube">YouTube</option>
+                        <option value="Twitter">Twitter</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="LinkedIn">LinkedIn</option>
+                    </select>
+                </div>
+            </div>
+            <div id="savedGenerationsList" class="saved-list"></div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="premium-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ViralCaption AI</h4>
+                    <p>Maak virale captions in seconden. Powered by AI, Trusted by 47K+ creators.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#how-it-works">Hoe het werkt</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#testimonials">Reviews</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Social</h4>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">TikTok</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ViralCaption AI. Alle rechten voorbehouden.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="script-premium.js"></script>
+    <script src="chat-widget.js"></script>
+    <script src="calculator-widget.js"></script>
+    <script>
+        function scrollToGenerator() {
+            document.getElementById('captionForm').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('topic').focus();
+        }
+    </script>
+</body>
+</html>

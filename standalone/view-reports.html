@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Reports - Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">ViralCaption AI</div>
+            <div class="header-actions">
+                <a href="index.html" class="home-btn">Home</a>
+            </div>
+            <p>View Reports</p>
+        </header>
+        <main>
+            <div class="reports">
+                <h2>System Reports</h2>
+                <div class="report-section">
+                    <h3>Revenue Report</h3>
+                    <canvas id="revenueChart" width="400" height="200"></canvas>
+                    <p>Total Revenue: €<span id="totalRevenue">3456</span></p>
+                </div>
+                <div class="report-section">
+                    <h3>User Growth</h3>
+                    <canvas id="userChart" width="400" height="200"></canvas>
+                    <p>Total Users: <span id="totalUsersReport">1234</span></p>
+                </div>
+                <div class="report-section">
+                    <h3>User Activity</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Active Users Today</h3>
+                            <p id="activeUsers">234</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Generations Today</h3>
+                            <p id="todayGenerations">567</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Avg. Session Time</h3>
+                            <p id="avgSession">5.2 min</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="report-section">
+                    <h3>Platform Usage</h3>
+                    <canvas id="platformChart" width="400" height="200"></canvas>
+                </div>
+                <button onclick="exportReport()">Export Report</button>
+            </div>
+        </main>
+        <footer>
+            <a href="admin-panel.html">Back to Admin Panel</a>
+        </footer>
+    </div>
+    <script src="view-reports.js"></script>
+</body>
+</html>

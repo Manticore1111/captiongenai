@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade Plan - ViralCaption AI</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #e0e7ff;
+            --accent: #ec4899;
+            --accent-dark: #be185d;
+            --success: #10b981;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+            --text: #374151;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Pricing Grid */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .plan-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .plan-description {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            min-height: 40px;
+        }
+
+        .pricing {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .currency {
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        .period {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .billing-note {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .features-list {
+            flex: 1;
+            margin-bottom: 30px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .feature-icon {
+            color: var(--success);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .feature.disabled {
+            color: var(--text-light);
+            opacity: 0.5;
+        }
+
+        .feature.disabled .feature-icon {
+            color: var(--border);
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-current {
+            background: var(--success);
+            color: white;
+            cursor: default;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+
+        .faq-section h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .faq-item {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: var(--light);
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--dark);
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            background: white;
+            padding: 20px;
+            color: var(--text-light);
+            display: none;
+            border-top: 2px solid var(--border);
+            line-height: 1.6;
+        }
+
+        .faq-answer.show {
+            display: block;
+        }
+
+        .faq-icon {
+            font-size: 1.3rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            overflow-x: auto;
+        }
+
+        .comparison-section h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+        }
+
+        th {
+            background: var(--light);
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .feature-name {
+            font-weight: 600;
+            color: var(--text);
+            min-width: 150px;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 30px;
+            background: var(--light);
+            border: 2px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-section {
+                padding: 20px;
+            }
+
+            th, td {
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>⭐ Upgrade Your Plan</h1>
+            <p>Choose the perfect plan for your social media content creation needs. Upgrade anytime to unlock more features.</p>
+        </div>
+
+        <!-- Pricing Cards -->
+        <div class="pricing-grid">
+            <!-- Free Plan -->
+            <div class="pricing-card">
+                <div class="plan-name">🎯 Free</div>
+                <p class="plan-description">Perfect for getting started</p>
+                <div class="pricing">
+                    <span class="currency">$</span>
+                    <span class="price">0</span>
+                    <span class="period">/month</span>
+                </div>
+                <div class="billing-note">Always free, no credit card required</div>
+
+                <div class="features-list">
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>5 captions per day</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>3 Social media platforms</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Save captions locally</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Basic analytics</span>
+                    </div>
+                    <div class="feature disabled">
+                        <span class="feature-icon">✗</span>
+                        <span>Template library</span>
+                    </div>
+                    <div class="feature disabled">
+                        <span class="feature-icon">✗</span>
+                        <span>Priority support</span>
+                    </div>
+                    <div class="feature disabled">
+                        <span class="feature-icon">✗</span>
+                        <span>API access</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-current">Current Plan</button>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card featured">
+                <div class="badge">Most Popular</div>
+                <div class="plan-name">⚡ Pro</div>
+                <p class="plan-description">For content creators and small teams</p>
+                <div class="pricing">
+                    <span class="currency">$</span>
+                    <span class="price">9.99</span>
+                    <span class="period">/month</span>
+                </div>
+                <div class="billing-note">Billed monthly • Cancel anytime</div>
+
+                <div class="features-list">
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Unlimited captions</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>All 6 social platforms</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Platform-specific suggestions</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Advanced analytics</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>500+ caption templates</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Email support</span>
+                    </div>
+                    <div class="feature disabled">
+                        <span class="feature-icon">✗</span>
+                        <span>API access</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="upgradePlan('pro')">Upgrade to Pro</button>
+            </div>
+
+            <!-- Business Plan -->
+            <div class="pricing-card">
+                <div class="plan-name">🚀 Business</div>
+                <p class="plan-description">For agencies and enterprises</p>
+                <div class="pricing">
+                    <span class="currency">$</span>
+                    <span class="price">14.99</span>
+                    <span class="period">/month</span>
+                </div>
+                <div class="billing-note">Billed monthly • Cancel anytime</div>
+
+                <div class="features-list">
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Unlimited everything</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>All Pro features</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Team management (5 users)</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Custom branding</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>1000+ caption templates</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Priority 24/7 support</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Full API access</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="upgradePlan('business')">Upgrade to Business</button>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="comparison-section">
+            <h2>📊 Detailed Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="feature-name">Feature</th>
+                        <th>Free</th>
+                        <th>Pro</th>
+                        <th>Business</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">Captions per day</td>
+                        <td>5</td>
+                        <td>∞ Unlimited</td>
+                        <td>∞ Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Supported platforms</td>
+                        <td>3</td>
+                        <td>6</td>
+                        <td>6+</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Caption templates</td>
+                        <td>50</td>
+                        <td>500</td>
+                        <td>1000+</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Analytics</td>
+                        <td>Basic</td>
+                        <td>Advanced</td>
+                        <td>Enterprise</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Team members</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>5+</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Custom branding</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">API access</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Support</td>
+                        <td>Community</td>
+                        <td>Email</td>
+                        <td>24/7 Priority</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2>❓ Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Can I cancel my subscription?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! You can cancel your subscription anytime from your billing settings. Your access will continue until the end of your billing period.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Do you offer annual discounts?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! When you pay annually, you get 2 months free on Pro plans and 3 months free on Business plans. Contact our sales team for details.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Is there a free trial?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        We offer a 7-day free trial for Pro and Business plans. No credit card required to start your trial.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Can I upgrade or downgrade anytime?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely! You can upgrade or downgrade your plan at any time. Changes take effect on your next billing date.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>What payment methods do you accept?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and bank transfers for annual plans.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Do you have enterprise plans?</span>
+                        <span class="faq-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! For enterprises with special requirements, contact our sales team at sales@viralcaption.ai for custom pricing.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleFaq(element) {
+            const item = element.parentElement;
+            item.classList.toggle('open');
+            
+            const answer = item.querySelector('.faq-answer');
+            answer.classList.toggle('show');
+        }
+
+        function upgradePlan(plan) {
+            alert(`🚀 Upgrading to ${plan.toUpperCase()} plan...\n\nPayment processing would happen here.`);
+            
+            // In a real application, this would redirect to payment processing
+            // For demo purposes, we'll just show the alert
+        }
+
+        // Session Manager
+        const SessionManager = {
+            TOKEN_KEY: 'vcai_auth_token',
+            USER_KEY: 'vcai_user_data',
+
+            getSession: function() {
+                const token = localStorage.getItem(this.TOKEN_KEY);
+                const user = localStorage.getItem(this.USER_KEY);
+                return {
+                    token,
+                    user: user ? JSON.parse(user) : null,
+                    isLoggedIn: !!token && !!user
+                };
+            }
+        };
+
+        // Check session
+        window.addEventListener('load', () => {
+            const session = SessionManager.getSession();
+            if (!session.isLoggedIn) {
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+</body>
+</html>

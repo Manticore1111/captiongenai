@@ -1,0 +1,39 @@
+.moderator-panel {
+  background-color: #121212;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.moderator-panel h1 {
+  margin-bottom: 20px;
+}
+
+.moderator-panel input {
+  width: 300px;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.moderator-panel button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff4081;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.moderator-panel button:hover {
+  background-color: #e91e63;
+}

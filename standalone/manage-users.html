@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users - Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">ViralCaption AI</div>
+            <div class="header-actions">
+                <a href="index.html" class="home-btn">Home</a>
+            </div>
+            <p>Manage Users</p>
+        </header>
+        <main>
+            <div class="user-management">
+                <h2>User List</h2>
+                <div class="search-bar">
+                    <input type="text" id="userSearch" placeholder="Search users...">
+                    <button onclick="searchUsers()">Search</button>
+                </div>
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subscription</th>
+                            <th>Generations</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- Users will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <footer>
+            <a href="admin-panel.html">Back to Admin Panel</a>
+        </footer>
+    </div>
+    <script src="manage-users.js"></script>
+</body>
+</html>

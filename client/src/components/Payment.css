@@ -1,0 +1,25 @@
+.payment {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.pricing {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.card {
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.3s;
+}
+
+.card.selected {
+  border-color: #00ffff;
+}

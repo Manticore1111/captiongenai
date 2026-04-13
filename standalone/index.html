@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViralCaption AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chat-widget.css">
+    <link rel="stylesheet" href="calculator-widget.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="logo-mark">VC</span>
+                <span class="logo-text">ViralCaption AI</span>
+            </div>
+            <div class="header-actions">
+                <a href="chat.html" class="secondary-btn">AI Chat</a>
+                <a href="user-login.html" class="login-btn" target="_blank" rel="noopener noreferrer">Login</a>
+            </div>
+            <p>Go Viral with AI Captions</p>
+        </header>
+        <main>
+            <section class="hero-section">
+                <div class="hero-copy">
+                    <span class="eyebrow">Gebruik direct</span>
+                    <h1>Start met virale captions in één klik</h1>
+                    <p>Voer je onderwerp in, kies je platform en maak direct een sterke caption met hashtags, CTA's en story-ideeën.</p>
+                    <div class="hero-buttons">
+                        <a href="#captionForm" class="primary-btn">Begin nu</a>
+                        <a href="checkout.html" class="secondary-btn">Bekijk premium</a>
+                    </div>
+                    <div class="hero-highlights">
+                        <div><strong>3 gratis</strong> caption-generaties per dag</div>
+                        <div><strong>Direct</strong> klaar voor social posts</div>
+                        <div><strong>Opslaan</strong> van ideeën</div>
+                    </div>
+                </div>
+
+                <div class="hero-form-area">
+                    <section class="generate-panel">
+                        <div class="generate-header">
+                            <span class="badge accent">Direct aan de slag</span>
+                            <h2>Je social caption generator</h2>
+                            <p>Vul je onderwerp in en ontvang direct meerdere caption-opties met passende hashtags en CTA's.</p>
+                        </div>
+                        <div class="generate-content">
+                            <form id="captionForm" class="caption-form">
+                                <label for="topic">Onderwerp of idee</label>
+                                <input type="text" id="topic" placeholder="Bijvoorbeeld: nieuwe sneaker drop" required autofocus>
+
+                                <label for="platform">Platform</label>
+                                <select id="platform">
+                                    <option value="TikTok">TikTok</option>
+                                    <option value="Instagram">Instagram</option>
+                                    <option value="YouTube">YouTube</option>
+                                    <option value="Twitter">Twitter</option>
+                                    <option value="Facebook">Facebook</option>
+                                    <option value="LinkedIn">LinkedIn</option>
+                                </select>
+
+                                <label for="tone">Stijl</label>
+                                <select id="tone">
+                                    <option value="Energetisch">Energetisch</option>
+                                    <option value="Inspirerend">Inspirerend</option>
+                                    <option value="Professioneel">Professioneel</option>
+                                    <option value="Speels">Speels</option>
+                                    <option value="Minimalistisch">Minimalistisch</option>
+                                </select>
+
+                                <label for="goal">Wat wil je maken?</label>
+                                <select id="goal">
+                                    <option value="Caption">Caption</option>
+                                    <option value="Story">Story</option>
+                                    <option value="Bio">Bio</option>
+                                    <option value="CTA">Call-to-action</option>
+                                    <option value="Postidee">Post idee</option>
+                                </select>
+
+                                <button type="submit" id="generateBtn">Genereer content</button>
+                                <button type="button" id="saveBtn" style="display: none;" class="secondary-save">Opslaan als concept</button>
+                            </form>
+                            <div class="usage-panel">
+                                <div class="usage-info">
+                                    <strong>Gratis limiet</strong>
+                                    <span>3 generaties per dag</span>
+                                </div>
+                                <div class="usage-meter">
+                                    <span class="meter-fill"></span>
+                                </div>
+                                <p class="usage-text">Gebruik je gratis quota en upgrade later naar premium voor onbeperkt gebruik.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+            <div id="loading" class="loading" style="display: none;">Je virale content genereren...</div>
+            <div id="error" class="error" style="display: none;"></div>
+            <div id="trending" class="trending" style="display: none;">
+                <h2>Trending Topics</h2>
+                <div id="trendingTopics"></div>
+            </div>
+            <div id="results" class="results" style="display: none;">
+                <h2>Hook Zin</h2>
+                <p id="hook"></p>
+                <h2>Captions</h2>
+                <div id="captions"></div>
+                <h2>Hashtags</h2>
+                <p id="hashtags"></p>
+                <h2>Platform-specifieke ideeën</h2>
+                <div id="platformIdeas"></div>
+                <h2>Story / Bio</h2>
+                <p id="storyBio"></p>
+                <h2>Call-to-action</h2>
+                <p id="ctaVariant"></p>
+                <h2>Post idee</h2>
+                <p id="postIdea"></p>
+            </div>
+            <section class="saved-panel">
+                <div class="saved-header">
+                    <h2>📋 Jouw concepten & planning</h2>
+                    <p>Bewaar je beste ideeën, bewerk ze later en plan je posts.</p>
+                    <div class="saved-controls">
+                        <input type="text" id="searchSaved" placeholder="Zoeken in concepten..." class="search-input">
+                        <select id="filterPlatform" class="filter-select">
+                            <option value="">Alle platforms</option>
+                            <option value="TikTok">TikTok</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="YouTube">YouTube</option>
+                            <option value="Twitter">Twitter</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="savedGenerationsList" class="saved-list"></div>
+            </section>
+            <section class="reviews">
+                <h2>Wat gebruikers zeggen</h2>
+                <div class="review-cards">
+                    <div class="review-card">
+                        <p>“Super handig! Binnen enkele seconden had ik captions klaar voor mijn TikTok.”</p>
+                        <span>– Lisa, content creator</span>
+                    </div>
+                    <div class="review-card">
+                        <p>“Maakte mijn posts veel beter met minder werk. Echt een aanrader.”</p>
+                        <span>– Mark, ondernemer</span>
+                    </div>
+                    <div class="review-card">
+                        <p>“De tools zijn makkelijk en de resultaten voelen echt professioneel.”</p>
+                        <span>– Sophie, influencer</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <a href="privacy-policy.html">Privacy Policy</a>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+    <script src="chat-widget.js"></script>
+    <script src="calculator-widget.js"></script>
+</body>
+</html>
