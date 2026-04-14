@@ -51,6 +51,11 @@ db.serialize(() => {
       if (!columnNames.includes('last_login_country')) {
         db.run(`ALTER TABLE users ADD COLUMN last_login_country TEXT`);
       }
+
+      // Add role column if missing
+      if (!columnNames.includes('role')) {
+        db.run(`ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user'`);
+      }
     }
   });
 
