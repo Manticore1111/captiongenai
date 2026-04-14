@@ -38,57 +38,42 @@ function verifyAdmin(req, res, next) {
 // POST /api/admin/login
 // ============================================
 router.post('/login', (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  console.log('🔐 Admin login poging:', email);
+  console.log('🔐 Admin login poging:', username);
 
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email en wachtwoord verplicht.' });
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Gebruikersnaam en wachtwoord verplicht.' });
   }
 
-  // Zoek admin gebruiker in database
-  db.get('SELECT * FROM users WHERE email = ? AND role = ?', [email, 'admin'], async (err, admin) => {
-    if (err) {
-      console.log('❌ Database error:', err.message);
-      return res.status(500).json({ error: 'Server fout.' });
-    }
+  // Hardcoded admin credentials check
+  const ADMIN_USERNAME = 'admin';
+  const ADMIN_PASSWORD = '123456789M';
 
-    if (!admin) {
-      console.log('❌ Admin niet gevonden:', email);
-      return res.status(401).json({ error: 'Ongeldige admin inloggegevens.' });
-    }
+  if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+    console.log('❌ Ongeldige admin login poging:', username);
+    return res.status(401).json({ error: 'Ongeldige gebruikersnaam of wachtwoord.' });
+  }
 
-    // Check wachtwoord
-    const validPassword = await bcrypt.compare(password, admin.password);
-    if (!validPassword) {
-      console.log('❌ Fout wachtwoord voor admin:', email);
-      return res.status(401).json({ error: 'Ongeldig wachtwoord.' });
-    }
+  console.log('✅ Admin login geslaagd');
 
-    console.log('✅ Admin login geslaagd:', email);
+  // Genereer admin token
+  const token = jwt.sign(
+    { id: 0, username: ADMIN_USERNAME, isAdmin: true },
+    JWT_SECRET,
+    { expiresIn: '24h' }
+  );
 
-    // Genereer admin token
-    const token = jwt.sign(
-      { id: admin.id, email: admin.email, isAdmin: true },
-      JWT_SECRET,
-      { expiresIn: '24h' }
-    );
-
-    // Update laatste login
-    const now = new Date().toISOString();
-    db.run('UPDATE users SET last_login = ? WHERE id = ?', [now, admin.id]);
-
-    res.json({
-      success: true,
-      token,
-      admin: {
-        id: admin.id,
-        name: admin.name || 'Admin',
-        email: admin.email,
-        role: 'admin'
-      },
-      message: 'Admin login geslaagd!'
-    });
+  res.json({
+    success: true,
+    token,
+    admin: {
+      id: 0,
+      name: 'Admin',
+      username: ADMIN_USERNAME,
+      role: 'admin'
+    },
+    message: 'Admin login geslaagd!'
   });
 });
 
