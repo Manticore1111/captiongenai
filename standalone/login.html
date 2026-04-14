@@ -406,11 +406,24 @@
             try {
                 console.log('🔓 Attempting login for:', email);
 
+                // Detect country from IP address
+                let detectedCountry = 'Onbekend';
+                let detectedIP = '';
+                try {
+                    const geoResponse = await fetch('https://ipapi.co/json/');
+                    const geoData = await geoResponse.json();
+                    detectedCountry = geoData.country_name || 'Onbekend';
+                    detectedIP = geoData.ip || '';
+                    console.log('🌍 Land gedetecteerd:', detectedCountry, '| IP:', detectedIP);
+                } catch (geoErr) {
+                    console.log('⚠️ Kon land niet detecteren:', geoErr.message);
+                }
+
                 // API call to backend
                 const response = await fetch('http://localhost:5000/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ email, password, country: detectedCountry, ip_address: detectedIP })
                 });
 
                 const data = await response.json();
@@ -428,7 +441,7 @@
                 console.log('✅ Login successful for:', email);
 
                 // Store session in localStorage
-                SessionManager.setSession(data.user, data.token);
+                SessionManager.setSession({...data.user, country: detectedCountry, ip_address: detectedIP}, data.token);
 
                 // Show success message
                 errorMessage.style.background = 'rgba(16, 185, 129, 0.1)';

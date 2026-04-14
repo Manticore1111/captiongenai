@@ -113,7 +113,7 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, country, ip_address } = req.body;
   
   // Validation
   if (!email || !password) {
@@ -150,7 +150,7 @@ router.post('/login', (req, res) => {
     console.log('✅ Login successful:', email);
     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
 
-    // Update last_login and streak
+    // Update last_login, streak, country, and IP
     const today = new Date().toISOString().split('T')[0];
     if (user.last_login !== today) {
       const yesterday = new Date();
@@ -160,13 +160,26 @@ router.post('/login', (req, res) => {
       db.run('UPDATE users SET last_login = ?, streak = ? WHERE id = ?', [today, newStreak, user.id]);
     }
 
+    // Save country and IP address from login
+    if (country || ip_address) {
+      db.run('UPDATE users SET country = ?, ip_address = ?, last_login_country = ? WHERE id = ?', 
+        [country || user.country || '', ip_address || '', country || '', user.id],
+        (updateErr) => {
+          if (updateErr) console.log('⚠️ Could not save country/IP:', updateErr.message);
+          else console.log('🌍 Country saved:', country, '| IP:', ip_address);
+        }
+      );
+    }
+
     // Return user data
     const userData = {
       id: user.id,
       name: user.name || 'User',
       email: user.email,
       phone: user.phone || '',
-      country: user.country || '',
+      country: country || user.country || '',
+      ip_address: ip_address || user.ip_address || '',
+      last_login_country: country || user.last_login_country || '',
       plan: user.subscription_status || 'free',
       captionsGenerated: user.captionsGenerated || 0,
       joinDate: user.created_at ? new Date(user.created_at).toLocaleDateString() : new Date().toLocaleDateString(),

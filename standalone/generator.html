@@ -1203,8 +1203,41 @@
             // Update Profile Tab
             document.getElementById('profile-name').textContent = user.name || 'Not set';
             document.getElementById('profile-email').textContent = user.email || 'Loading...';
-            document.getElementById('profile-phone').textContent = user.phone || 'Not set';
-            document.getElementById('profile-country').textContent = user.country || 'Not set';
+            document.getElementById('profile-phone').textContent = user.phone || 'Niet ingesteld';
+            document.getElementById('profile-country').textContent = user.country || 'Detecteren...';
+            
+            // Show IP (masked for privacy)
+            const ip = user.ip_address || '';
+            if (ip) {
+                const parts = ip.split('.');
+                document.getElementById('profile-ip').textContent = parts[0] + '.' + parts[1] + '.***. ***';
+            } else {
+                document.getElementById('profile-ip').textContent = 'Niet beschikbaar';
+            }
+
+            // If no country saved, detect it now
+            if (!user.country || user.country === 'Onbekend') {
+                try {
+                    const geoRes = await fetch('https://ipapi.co/json/');
+                    const geoData = await geoRes.json();
+                    if (geoData.country_name) {
+                        document.getElementById('profile-country').textContent = '🌍 ' + geoData.country_name;
+                        // Update localStorage
+                        user.country = geoData.country_name;
+                        user.ip_address = geoData.ip || '';
+                        localStorage.setItem('vcai_user_data', JSON.stringify(user));
+                        // Update IP display
+                        if (geoData.ip) {
+                            const ipParts = geoData.ip.split('.');
+                            document.getElementById('profile-ip').textContent = ipParts[0] + '.' + ipParts[1] + '.***.***';
+                        }
+                    }
+                } catch (e) {
+                    document.getElementById('profile-country').textContent = 'Kon niet detecteren';
+                }
+            } else {
+                document.getElementById('profile-country').textContent = '🌍 ' + user.country;
+            }
             
             const joinDate = new Date();
             document.getElementById('profile-joined').textContent = joinDate.toLocaleDateString('en-US', { 
@@ -1394,20 +1427,24 @@
                             <div style="font-size: 1.2rem; font-weight: 700; color: var(--text);" id="profile-name">Loading...</div>
                         </div>
                         <div style="background: #f9f9f9; padding: 18px; border-radius: 10px; border-left: 4px solid #ec4899;">
-                            <div style="font-size: 0.8rem; color: var(--text-light); font-weight: 700; margin-bottom: 5px; text-transform: uppercase;">Email Address</div>
-                            <div style="font-size: 1.2rem; font-weight: 700; color: var(--text);" id="profile-email">Loading...</div>
+                            <div style="font-size: 0.8rem; color: var(--text-light); font-weight: 700; margin-bottom: 5px; text-transform: uppercase;">E-mailadres</div>
+                            <div style="font-size: 1.2rem; font-weight: 700; color: var(--text);" id="profile-email">Laden...</div>
                         </div>
                         <div style="background: #f9f9f9; padding: 18px; border-radius: 10px; border-left: 4px solid #4facfe;">
-                            <div style="font-size: 0.8rem; color: var(--text-light); font-weight: 700; margin-bottom: 5px; text-transform: uppercase;">Account Created</div>
-                            <div style="font-size: 1.2rem; font-weight: 700; color: var(--text);" id="profile-joined">Loading...</div>
+                            <div style="font-size: 0.8rem; color: var(--text-light); font-weight: 700; margin-bottom: 5px; text-transform: uppercase;">Account Aangemaakt</div>
+                            <div style="font-size: 1.2rem; font-weight: 700; color: var(--text);" id="profile-joined">Laden...</div>
                         </div>
                         <div style="background: #f9f9f9; padding: 18px; border-radius: 10px; border-left: 4px solid #f093fb;">
-                            <div style="font-size: 0.8rem; color: var(--text-light); font-weight: 700; margin-bottom: 5px; text-transform: uppercase;">Phone (Optional)</div>
-                            <div style="font-size: 1.2rem; font-weight: 700; color: var(--text);" id="profile-phone">Not set</div>
+                            <div style="font-size: 0.8rem; color: var(--text-light); font-weight: 700; margin-bottom: 5px; text-transform: uppercase;">Telefoon</div>
+                            <div style="font-size: 1.2rem; font-weight: 700; color: var(--text);" id="profile-phone">Niet ingesteld</div>
                         </div>
                         <div style="background: #f9f9f9; padding: 18px; border-radius: 10px; border-left: 4px solid #00f2fe;">
-                            <div style="font-size: 0.8rem; color: var(--text-light); font-weight: 700; margin-bottom: 5px; text-transform: uppercase;">Country (Optional)</div>
-                            <div style="font-size: 1.2rem; font-weight: 700; color: var(--text);" id="profile-country">Not set</div>
+                            <div style="font-size: 0.8rem; color: var(--text-light); font-weight: 700; margin-bottom: 5px; text-transform: uppercase;">🌍 Land (Automatisch gedetecteerd)</div>
+                            <div style="font-size: 1.2rem; font-weight: 700; color: var(--text);" id="profile-country">Detecteren...</div>
+                        </div>
+                        <div style="background: #f9f9f9; padding: 18px; border-radius: 10px; border-left: 4px solid #10b981;">
+                            <div style="font-size: 0.8rem; color: var(--text-light); font-weight: 700; margin-bottom: 5px; text-transform: uppercase;">🔒 IP Adres</div>
+                            <div style="font-size: 1.2rem; font-weight: 700; color: var(--text);" id="profile-ip">Verborgen</div>
                         </div>
                     </div>
 

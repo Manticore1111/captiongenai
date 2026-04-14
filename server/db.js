@@ -41,6 +41,16 @@ db.serialize(() => {
       if (!columnNames.includes('country')) {
         db.run(`ALTER TABLE users ADD COLUMN country TEXT`);
       }
+
+      // Add ip_address column if missing
+      if (!columnNames.includes('ip_address')) {
+        db.run(`ALTER TABLE users ADD COLUMN ip_address TEXT`);
+      }
+
+      // Add last_login_country column if missing
+      if (!columnNames.includes('last_login_country')) {
+        db.run(`ALTER TABLE users ADD COLUMN last_login_country TEXT`);
+      }
     }
   });
 
