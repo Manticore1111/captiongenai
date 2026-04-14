@@ -669,7 +669,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                     <div>
                         <h1>✨ Caption Generator</h1>
-                        <p style="color: var(--text-light); margin-top: 5px;">Create viral captions for your social media posts</p>
+                        <p style="color: var(--text-light); margin-top: 5px;">Maak virale captions voor je social media posts</p>
                     </div>
                     <button type="button" onclick="openStatsModal()" style="padding: 12px 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.95rem; transition: all 0.3s; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);">
                         📊 Stats & Info
@@ -699,13 +699,13 @@
             <div class="content-grid">
                 <!-- Generator Form -->
                 <div class="card">
-                    <h2>Generate Captions</h2>
+                    <h2>Genereer Captions</h2>
                     <form id="generatorForm" onsubmit="generateCaptions(event)" class="generator-form">
                         <!-- Topic Section -->
                         <div class="topic-section">
                             <div class="form-group">
-                                <label>What would you like a caption for? *</label>
-                                <textarea id="topic" placeholder="E.g., A beautiful sunset photo, new product launch announcement, team celebration..." required></textarea>
+                                <label>Waarvoor wil je een caption? *</label>
+                                <textarea id="topic" placeholder="Bijv. Een mooie zonsondergang foto, product lancering, teamfeest..." required></textarea>
                             </div>
                         </div>
 
@@ -713,7 +713,7 @@
                         <div class="platform-tone-row">
                             <!-- Platform Selection -->
                             <div class="options-section">
-                                <label>📱 Choose Your Platform *</label>
+                                <label>📱 Kies je Platform *</label>
                                 <div class="button-group" id="platformGroup">
                                     <button type="button" class="option-btn" data-platform="tiktok" onclick="selectPlatform(event)">
                                         <span class="option-icon">🎵</span>
@@ -745,14 +745,14 @@
 
                             <!-- Tone Selection -->
                             <div class="options-section">
-                                <label>🎯 Select Tone *</label>
+                                <label>🎯 Selecteer Toon *</label>
                                 <div class="tone-group" id="toneGroup">
-                                    <button type="button" class="tone-btn" data-tone="funny" onclick="selectTone(event)">😂 Funny</button>
-                                    <button type="button" class="tone-btn" data-tone="inspirational" onclick="selectTone(event)">🌟 Inspirational</button>
-                                    <button type="button" class="tone-btn" data-tone="professional" onclick="selectTone(event)">💼 Professional</button>
+                                    <button type="button" class="tone-btn" data-tone="funny" onclick="selectTone(event)">😂 Grappig</button>
+                                    <button type="button" class="tone-btn" data-tone="inspirational" onclick="selectTone(event)">🌟 Inspirerend</button>
+                                    <button type="button" class="tone-btn" data-tone="professional" onclick="selectTone(event)">💼 Professioneel</button>
                                     <button type="button" class="tone-btn" data-tone="casual" onclick="selectTone(event)">😊 Casual</button>
                                     <button type="button" class="tone-btn" data-tone="urgent" onclick="selectTone(event)">⚡ Urgent</button>
-                                    <button type="button" class="tone-btn" data-tone="educational" onclick="selectTone(event)">📚 Educational</button>
+                                    <button type="button" class="tone-btn" data-tone="educational" onclick="selectTone(event)">📚 Educatief</button>
                                 </div>
                                 <input type="hidden" id="tone" required>
                             </div>
@@ -761,12 +761,12 @@
                         <!-- Keywords & Count Row -->
                         <div class="keywords-count-row">
                             <div class="form-group">
-                                <label>Keywords (optional)</label>
-                                <input type="text" id="keywords" placeholder="E.g., summer, trending, must-see">
+                                <label>Trefwoorden (optioneel)</label>
+                                <input type="text" id="keywords" placeholder="Bijv. zomer, trending, must-see">
                             </div>
 
                             <div class="form-group">
-                                <label>How many captions?</label>
+                                <label>Hoeveel captions?</label>
                                 <select id="count">
                                     <option value="3">3 captions</option>
                                     <option value="5" selected>5 captions</option>
@@ -775,29 +775,29 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">⚡ Generate Captions</button>
+                        <button type="submit" class="btn btn-primary">⚡ Genereer Captions</button>
                     </form>
 
                     <!-- Results -->
                     <div class="results" id="results">
-                        <h3>✨ Generated Captions</h3>
+                        <h3>✨ Gegenereerde Captions</h3>
                         <div id="captionsList"></div>
                     </div>
 
                     <!-- Placeholder -->
                     <div class="placeholder" id="placeholder">
-                        <p>🎨 Fill in the form and click "Generate" to create viral captions</p>
-                        <p style="font-size: 0.9rem; color: var(--text-light);">AI will create captions optimized for your chosen platform</p>
+                        <p>🎨 Vul het formulier in en klik "Genereer" om virale captions te maken</p>
+                        <p style="font-size: 0.9rem; color: var(--text-light);">AI zal captions maken die geoptimaliseerd zijn voor je gekozen platform</p>
                     </div>
                 </div>
 
                 <!-- Sidebar Info -->
                 <div>
                     <div class="card">
-                        <h2>📊 Usage Today</h2>
+                        <h2>📊 Vandaag Gebruikt</h2>
                         <div style="text-align: center; padding: 20px 0;">
                             <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;" id="usageCount">0/∞</div>
-                            <div style="color: var(--text-light); font-size: 0.9rem;">Captions generated</div>
+                            <div style="color: var(--text-light); font-size: 0.9rem;">Captions gegenereerd</div>
                         </div>
                     </div>
 
@@ -887,7 +887,7 @@
             // Update message based on trials left
             if (trialsRemaining === 0) {
                 banner.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
-                message.innerHTML = '❌ <strong>Your free trials are EXHAUSTED!</strong><br>Upgrade to a paid plan to continue generating captions.';
+                message.innerHTML = '❌ <strong>Je gratis trials zijn OP!</strong><br>Upgrade naar een betaald plan om door te gaan met het genereren van captions.';
             } else if (trialsRemaining === 1) {
                 banner.style.background = 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)';
                 message.innerHTML = '🚨 <strong>LAST TRIAL!</strong><br>After this, you\'ll need to subscribe to continue.';
@@ -955,12 +955,12 @@
             const tone = document.getElementById('tone').value;
             
             if (!platform) {
-                alert('⚠️ Please select a platform');
+                alert('⚠️ Selecteer alstublieft een platform');
                 return;
             }
             
             if (!tone) {
-                alert('⚠️ Please select a tone');
+                alert('⚠️ Selecteer alstublieft een toon');
                 return;
             }
 
@@ -972,7 +972,7 @@
             const submitBtn = document.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
             submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ Generating...';
+            submitBtn.textContent = '⏳ Genereren...';
 
             try {
                 // Check rate limit
@@ -981,7 +981,7 @@
                 
                 if (timeSinceLastGen < RATE_LIMIT_MS) {
                     const waitSeconds = Math.ceil((RATE_LIMIT_MS - timeSinceLastGen) / 1000);
-                    alert(`⏳ Please wait ${waitSeconds} second(s) before generating captions again.`);
+                    alert(`⏳ Wacht alstublieft ${waitSeconds} seconde(n) voordat je opnieuw captions genereert.`);
                     throw new Error('Rate limit exceeded');
                 }
 
@@ -994,8 +994,8 @@
                     <div class="caption-item">
                         <div class="caption-text">${caption}</div>
                         <div class="caption-actions">
-                            <button type="button" class="copy-btn" onclick="copyCaption('${caption.replace(/'/g, "\\'")}')">📋 Copy</button>
-                            <button type="button" class="save-btn" onclick="saveCaption('${caption.replace(/'/g, "\\'")}')">💾 Save</button>
+                            <button type="button" class="copy-btn" onclick="copyCaption('${caption.replace(/'/g, "\\'")}')">📋 Kopieer</button>
+                            <button type="button" class="save-btn" onclick="saveCaption('${caption.replace(/'/g, "\\'")}')">💾 Opslaan</button>
                         </div>
                     </div>
                 `).join('');
@@ -1020,7 +1020,7 @@
                 }
 
             } catch (error) {
-                alert('❌ Error generating captions: ' + error.message);
+                alert('❌ Fout bij genereren van captions: ' + error.message);
             } finally {
                 // Reset submit button
                 submitBtn.disabled = false;
@@ -1042,7 +1042,7 @@
                     
                     // Show notification
                     if (trialsRemaining === 0) {
-                        alert('❌ FREE TRIALS EXHAUSTED!\n\nSubscribe now to continue generating captions!\n\n💎 Pro: €9.99/month\n👑 Business: €14.99/month');
+                        alert('❌ GRATIS TRIALS OP!\n\nSubscribeer nu om door te gaan met het genereren van captions!\n\n💎 Pro: €9.99/maand\n👑 Business: €14.99/maand');
                         window.location.href = 'upgrade.html';
                     } else if (trialsRemaining <= 1) {
                         setTimeout(() => {
@@ -1102,7 +1102,7 @@
 
         function copyCaption(text) {
             navigator.clipboard.writeText(text).then(() => {
-                alert('✅ Caption copied to clipboard!');
+                alert('✅ Caption gekopieerd naar klembord!');
             });
         }
 
@@ -1113,14 +1113,14 @@
             if (!captions.includes(text)) {
                 captions.push(text);
                 localStorage.setItem('vcai_saved_captions', JSON.stringify(captions));
-                alert('💾 Caption saved!');
+                alert('💾 Caption opgeslagen!');
             } else {
-                alert('⚠️ Caption already saved!');
+                alert('⚠️ Caption al opgeslagen!');
             }
         }
 
         function logout() {
-            if (confirm('Are you sure you want to logout?')) {
+            if (confirm('Weet je zeker dat je wilt uitloggen?')) {
                 SessionManager.clearSession();
                 window.location.href = 'login.html';
             }
@@ -1257,7 +1257,7 @@
                             <td style="padding: 15px; color: var(--text-light);">${randomPlatform}</td>
                             <td style="padding: 15px; color: var(--text-light);">${dateStr}</td>
                             <td style="padding: 15px; text-align: center;">
-                                <button type="button" onclick="navigator.clipboard.writeText('${caption.replace(/'/g, "\\'")}'); alert('Copied!');" style="padding: 6px 12px; background: #667eea; color: white; border: none; border-radius: 5px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Copy</button>
+                                <button type="button" onclick="navigator.clipboard.writeText('${caption.replace(/'/g, "\\'")}'); alert('Gekopieerd!');" style="padding: 6px 12px; background: #667eea; color: white; border: none; border-radius: 5px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">Kopieer</button>
                             </td>
                         </tr>
                     `;
